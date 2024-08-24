@@ -10,7 +10,7 @@ class DataStore(models.Model):
     name = models.CharField(max_length=100)
     company_id = models.ForeignKey(Company, on_delete=models.CASCADE) #.PositiveIntegerField()
     created_by = models.ForeignKey(UserAccount, on_delete=models.CASCADE) #.PositiveIntegerField()
-    company_website = models.CharField()
+    company_website = models.CharField(max_length=100)
     tokens = models.PositiveIntegerField()
     content = models.TextField("Content", null=False, blank=False)
     embedding = VectorField(
