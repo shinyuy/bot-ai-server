@@ -56,7 +56,7 @@ class WhatsAppApiView(APIView):
                         and body["entry"][0]["changes"][0]["value"]["messages"][0]
                     ):
                         handle_whatsapp_message(body)
-                    return Response({"status": "ok"}), 200
+                    return Response("ok", 200)
                 else:
                     # if the request is not a WhatsApp API event, return an error
                     return (
