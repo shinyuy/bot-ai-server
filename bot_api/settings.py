@@ -99,11 +99,11 @@ if DEVELOPMENT_MODE is True:
        DATABASES = {
         "default" : {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME":  getenv("DB"),
-            "USER": getenv("DB_USER"),
-            "PASSWORD": getenv("DB_PASSWORD"),
-            "HOST": getenv("DB_HOST"),
-            "PORT": 5432
+            "NAME":  'vector_db', #getenv("DB"),
+            "USER": 'postgres', #getenv("DB_USER"),
+            "PASSWORD": 'password', #getenv("DB_PASSWORD"),
+            "HOST": "localhost", #getenv("DB_HOST"),
+            "PORT": 5433 #5432
         }
     }
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':

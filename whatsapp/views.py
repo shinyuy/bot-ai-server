@@ -104,7 +104,7 @@ def send_whatsapp_message(body, message):
     phone_number_id = value["metadata"]["phone_number_id"]
     from_number = value["messages"][0]["from"]
     headers = {
-        "Authorization": f"Bearer {getenv("FACEBOOK_VERIFY_TOKEN")}",
+        "Authorization": f"Bearer {getenv('FACEBOOK_VERIFY_TOKEN')}",
         "Content-Type": "application/json",
     }
     url = "https://graph.facebook.com/v15.0/" + phone_number_id + "/messages"
