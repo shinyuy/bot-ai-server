@@ -59,13 +59,12 @@ class WhatsAppApiView(APIView):
                 else:
                     # if the request is not a WhatsApp API event, return an error
                     return (
-                        Response({"status": "error", "message": "Not a WhatsApp API event"}),
-                        404,
+                        Response("Not a WhatsApp API event", 404)
                     )
             # catch all other errors and return an internal server error
             except Exception as e:
                 print(f"unknown error: {e}")
-                return Response({"status": "error", "message": str(e)}), 500
+                return Response(str(e), 500)
                 
 
 def handle_whatsapp_message(body):
