@@ -26,7 +26,7 @@ class WhatsAppApiView(APIView):
                 if mode == "subscribe" and token == getenv("FACEBOOK_VERIFY_TOKEN"):
                     # Respond with 200 OK and challenge token from the request
                     print("WEBHOOK_VERIFIED")
-                    return challenge, 200
+                    return Response(challenge, 200)
                 else:
                     # Responds with '403 Forbidden' if verify tokens do not match
                     print("VERIFICATION_FAILED")
