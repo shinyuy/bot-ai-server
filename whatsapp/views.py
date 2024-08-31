@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny
+from django.http import HttpResponse
 from os import getenv
 
 
@@ -26,7 +27,7 @@ class WhatsAppApiView(APIView):
                 if mode == "subscribe" and token == getenv("FACEBOOK_VERIFY_TOKEN"):
                     # Respond with 200 OK and challenge token from the request
                     print("WEBHOOK_VERIFIED")
-                    return Response(challenge, 200)
+                    return HttpResponse(challenge, content_type='text/plain')
                 else:
                     # Responds with '403 Forbidden' if verify tokens do not match
                     print("VERIFICATION_FAILED")
