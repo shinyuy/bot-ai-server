@@ -103,7 +103,7 @@ if DEVELOPMENT_MODE is True:
             "USER": getenv("DB_USER"),
             "PASSWORD": getenv("DB_PASSWORD"),
             "HOST": getenv("DB_HOST"),
-            "PORT": 5433 #5432
+            "PORT": 5432
         }
     }
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
