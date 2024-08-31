@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('company.urls')),
     path('api/', include('data_store.urls')),
+    path('api/', include('whatsapp.urls')),
 ]
 

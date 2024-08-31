@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'social_django',
     'users',
     'data_store',
-    'company'
+    'company',
+    'whatsapp'
 ]
 
 MIDDLEWARE = [
@@ -95,19 +96,10 @@ WSGI_APPLICATION = 'bot_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 if DEVELOPMENT_MODE is True:
-    #    DATABASES = {
-    #     "default" : {
-    #         "ENGINE": "django.db.backends.postgresql",
-    #         "NAME": "vector_db",
-    #         "USER": "postgres",
-    #         "PASSWORD": "password",
-    #         "HOST": "localhost",
-    #         "PORT": 5433
-    #     }
        DATABASES = {
         "default" : {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": getenv("DB"),
+            "NAME":  getenv("DB"),
             "USER": getenv("DB_USER"),
             "PASSWORD": getenv("DB_PASSWORD"),
             "HOST": getenv("DB_HOST"),
