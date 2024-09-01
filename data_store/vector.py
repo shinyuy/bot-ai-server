@@ -1,6 +1,6 @@
 import os
 
-from langchain.document_loaders import UnstructuredFileLoader
+from langchain_community.document_loaders import UnstructuredFileLoader
 from langchain_text_splitters import CharacterTextSplitter
 # from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
