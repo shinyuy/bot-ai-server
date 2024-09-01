@@ -41,7 +41,7 @@ class WhatsAppApiView(APIView):
     # 2. Create
     def post(self, request, *args, **kwargs):
             # Parse Request body in json format
-            body = request.get_json()
+            body = request.data
             print(f"request body: {body}")
 
             try:
