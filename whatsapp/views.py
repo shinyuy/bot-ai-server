@@ -97,6 +97,7 @@ def handle_whatsapp_message(body):
         audio_id = message["audio"]["id"]
         message_body = handle_audio_message(audio_id)
     response = "Done" #make_openai_request(message_body, message["from"])
+    print("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
     send_whatsapp_message(body, response)       
         
 def handle_audio_message(audio_id):
@@ -125,10 +126,10 @@ def send_whatsapp_message(body, message):
     phone_number_id = value["metadata"]["phone_number_id"]
     from_number = value["messages"][0]["from"]
     headers = {
-        "Authorization": f"Bearer {getenv('FACEBOOK_VERIFY_TOKEN')}",
+        "Authorization": f"Bearer {getenv('WHATSAPP_TOKEN')}",
         "Content-Type": "application/json",
     }
-    url = "https://graph.facebook.com/v15.0/" + phone_number_id + "/messages"
+    url = "https://graph.facebook.com/v20.0" + phone_number_id + "/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": from_number,

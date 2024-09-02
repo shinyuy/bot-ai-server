@@ -38,7 +38,7 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = getenv("DEBUG", "False") == "False"
 
 ALLOWED_HOSTS = ["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-
+CORS_ALLOWED_ORIGINS = ["*"]
 
 # Application definition
 
