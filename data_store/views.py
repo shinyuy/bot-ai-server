@@ -108,6 +108,7 @@ class QuestionApiView(APIView):
         question = request.data.get('question')
         
         website = request.data.get('website')
+        print(request.data)
         print("000000000000000000000000000000000000000000000000000000000000000000000000")
         query = vectorize(question, 'question')
         print(query)
