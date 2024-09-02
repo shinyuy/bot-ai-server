@@ -21,7 +21,7 @@ COLLECTION_NAME = 'test_vectors'
 def vectorize(text, name):
     print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
     print(text)
-    embeddings = HuggingFaceEmbeddings()
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     print(embeddings)
     print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
     query_result = embeddings.embed_query(text)
