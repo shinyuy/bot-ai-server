@@ -181,7 +181,7 @@ class DataStoreAllApiView(APIView):
     
         try:
             data_store = DataStore.objects.all()
-            serializer = DataStoreSerializer(data_store)
+            serializer = DataStoreSerializer(data_store, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)  
         except DataStore.DoesNotExist:
             return Response("Not found", status=status.HTTP_400_BAD_REQUEST)
