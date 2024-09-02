@@ -129,6 +129,7 @@ def send_whatsapp_message(body, message):
         "Authorization": f"Bearer {getenv('WHATSAPP_TOKEN')}",
         "Content-Type": "application/json",
     }
+    print("222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
     url = "https://graph.facebook.com/v20.0" + phone_number_id + "/messages"
     data = {
         "messaging_product": "whatsapp",
@@ -213,24 +214,24 @@ def handle_audio_message(audio_id):
 
 
 # send the response as a WhatsApp message back to the user
-def send_whatsapp_message(body, message):
-    value = body["entry"][0]["changes"][0]["value"]
-    phone_number_id = value["metadata"]["phone_number_id"]
-    from_number = value["messages"][0]["from"]
-    headers = {
-        "Authorization": f"Bearer {whatsapp_token}",
-        "Content-Type": "application/json",
-    }
-    url = "https://graph.facebook.com/v15.0/" + phone_number_id + "/messages"
-    data = {
-        "messaging_product": "whatsapp",
-        "to": from_number,
-        "type": "text",
-        "text": {"body": message},
-    }
-    response = requests.post(url, json=data, headers=headers)
-    print(f"whatsapp message response: {response.json()}")
-    response.raise_for_status()
+# def send_whatsapp_message(body, message):
+#     value = body["entry"][0]["changes"][0]["value"]
+#     phone_number_id = value["metadata"]["phone_number_id"]
+#     from_number = value["messages"][0]["from"]
+#     headers = {
+#         "Authorization": f"Bearer {whatsapp_token}",
+#         "Content-Type": "application/json",
+#     }
+#     url = "https://graph.facebook.com/v15.0/" + phone_number_id + "/messages"
+#     data = {
+#         "messaging_product": "whatsapp",
+#         "to": from_number,
+#         "type": "text",
+#         "text": {"body": message},
+#     }
+#     response = requests.post(url, json=data, headers=headers)
+#     print(f"whatsapp message response: {response.json()}")
+#     response.raise_for_status()
 
 
 # create a message log for each phone number and return the current message log
