@@ -103,8 +103,9 @@ def handle_whatsapp_message(body):
     elif message["type"] == "audio":
         audio_id = message["audio"]["id"]
         message_body = handle_audio_message(audio_id)
-    print("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")    
-    response = 'Yooooooooooooo' #make_ai_request(message_body, message["from"])
+    print("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000") 
+    print(message_body)   
+    response = make_ai_request(message_body, message["from"])
     print("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
     print(response)
     send_whatsapp_message(body, response)       
