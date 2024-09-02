@@ -38,7 +38,7 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = getenv("DEBUG", "False") == "False"
 
 ALLOWED_HOSTS = ["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-CORS_ALLOWED_ORIGINS = ["*"]
+# CORS_ALLOWED_ORIGINS = ["*"]
 
 # Application definition
 
@@ -103,7 +103,7 @@ if DEVELOPMENT_MODE is True:
             "USER": getenv("DB_USER"),
             "PASSWORD": getenv("DB_PASSWORD"),
             "HOST": getenv("DB_HOST"),
-            "PORT": 5432
+            "PORT": getenv("DB_PORT")
         }
     }
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':

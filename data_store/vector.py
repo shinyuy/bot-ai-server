@@ -18,9 +18,11 @@ COLLECTION_NAME = 'test_vectors'
 
 
 def vectorize(text, name):
+    print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
     print(text)
     embeddings = HuggingFaceEmbeddings()
     print(embeddings)
+    print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
     query_result = embeddings.embed_query(text)
     print(query_result)
     return query_result

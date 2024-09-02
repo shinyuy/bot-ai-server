@@ -8,9 +8,9 @@ from rest_framework import permissions
 from rest_framework.permissions import AllowAny
 from django.http import HttpResponse
 from os import getenv
-import pydub
-import soundfile as sf
-import speech_recognition as sr
+# import pydub
+# import soundfile as sf
+# import speech_recognition as sr
 import io
 from data_store.vector import vectorize, vector2text, get_chat_completion
 import requests
