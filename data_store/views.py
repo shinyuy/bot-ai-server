@@ -168,3 +168,20 @@ class FileApiView(APIView):
             status=status.HTTP_200_OK
         )
         
+        
+class DataStoreAllApiView(APIView):
+    # add permission to check if user is authenticated  
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+    
+        # data_store = DataStore.objects.filter(company_id = request.data['company_id'])
+        # serializer = DataStoreSerializer(data_store)
+        # return Response(serializer.data, status=status.HTTP_200_OK)
+    
+        try:
+            data_store = DataStore.objects.all()
+            serializer = DataStoreSerializer(data_store)
+            return Response(serializer.data, status=status.HTTP_200_OK)  
+        except DataStore.DoesNotExist:
+            return Response("Not found", status=status.HTTP_400_BAD_REQUEST)
