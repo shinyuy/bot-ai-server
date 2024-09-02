@@ -105,6 +105,7 @@ def handle_whatsapp_message(body):
         message_body = handle_audio_message(audio_id)
     response = make_ai_request(message_body, message["from"])
     print("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+    print(response)
     send_whatsapp_message(body, response)       
         
 def handle_audio_message(audio_id):
@@ -152,6 +153,7 @@ def send_whatsapp_message(body, message):
 def make_ai_request(message, from_number):
     query = vectorize(message, 'question')
     result = ''
+    print(result)
     try:
         answers = DataStore.objects.filter(company_website="https://boookit.io")
         answers_with_distance = answers.annotate(
@@ -161,8 +163,9 @@ def make_ai_request(message, from_number):
             if answer.company_website == "https://boookit.io":
                 answer_text =  answer.content
                 result = result + " " + answer_text
-                
-        res = get_chat_completion(message, result)      
+        print(result)        
+        res = get_chat_completion(message, result)   
+        print(res)   
         return res  
     except DataStore.DoesNotExist:
         return "Sorry, I don't have a response to your query"  
