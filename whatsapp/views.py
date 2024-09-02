@@ -12,7 +12,14 @@ import pydub
 import soundfile as sf
 import speech_recognition as sr
 import io
+from data_store.vector import vectorize, vector2text, get_chat_completion
 import requests
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from pgvector.django import CosineDistance
+from data_store.models import DataStore
 
 
 
@@ -96,7 +103,7 @@ def handle_whatsapp_message(body):
     elif message["type"] == "audio":
         audio_id = message["audio"]["id"]
         message_body = handle_audio_message(audio_id)
-    response = "Done" #make_openai_request(message_body, message["from"])
+    response = make_ai_request(message_body, message["from"])
     print("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
     send_whatsapp_message(body, response)       
         
@@ -142,22 +149,23 @@ def send_whatsapp_message(body, message):
     response.raise_for_status()          
    
    
-def make_openai_request(message, from_number):
+def make_ai_request(message, from_number):
+    query = vectorize(message, 'question')
+    result = ''
     try:
-        message_log = update_message_log(message, from_number, "user")
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=message_log,
-            temperature=0.7,
-        )
-        response_message = response.choices[0].message.content
-        print(f"openai response: {response_message}")
-        update_message_log(response_message, from_number, "assistant")
-    except Exception as e:
-        print(f"openai error: {e}")
-        response_message = "Sorry, the OpenAI API is currently overloaded or offline. Please try again later."
-        remove_last_message_from_log(from_number)
-    return response_message   
+        answers = DataStore.objects.filter(company_website="https://boookit.io")
+        answers_with_distance = answers.annotate(
+            distance=CosineDistance("embedding", query)
+            ).order_by("distance")[:3]
+        for answer in answers_with_distance:  
+            if answer.company_website == "https://boookit.io":
+                answer_text =  answer.content
+                result = result + " " + answer_text
+                
+        res = get_chat_completion(message, result)      
+        return res  
+    except DataStore.DoesNotExist:
+        return "Sorry, I don't have a response to your query"  
 
 
 # get the media url from the media id
