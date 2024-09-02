@@ -123,7 +123,7 @@ def convert_audio_bytes(audio_bytes):
 
 def send_whatsapp_message(body, message):
     value = body["entry"][0]["changes"][0]["value"]
-    phone_number_id = value["metadata"]["phone_number_id"]
+    phone_number_id = "373379749199948" #value["metadata"]["phone_number_id"]
     from_number = value["messages"][0]["from"]
     headers = {
         "Authorization": f"Bearer {getenv('WHATSAPP_TOKEN')}",
