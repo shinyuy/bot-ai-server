@@ -108,8 +108,9 @@ class QuestionApiView(APIView):
         question = request.data.get('question')
         
         website = request.data.get('website')
+        print("000000000000000000000000000000000000000000000000000000000000000000000000")
         query = vectorize(question, 'question')
-
+        print(query)
         result = ''
         try:
             answers = DataStore.objects.filter(company_website=website)
