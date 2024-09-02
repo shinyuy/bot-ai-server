@@ -18,7 +18,7 @@ COLLECTION_NAME = 'test_vectors'
 
 
 def vectorize(text, name):
-
+    print(text)
     embeddings = HuggingFaceEmbeddings()
     # print(texts)
     query_result = embeddings.embed_query(text)

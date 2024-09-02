@@ -104,7 +104,7 @@ def handle_whatsapp_message(body):
         audio_id = message["audio"]["id"]
         message_body = handle_audio_message(audio_id)
     print("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")    
-    response = make_ai_request(message_body, message["from"])
+    response = 'Yooooooooooooo' #make_ai_request(message_body, message["from"])
     print("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
     print(response)
     send_whatsapp_message(body, response)       
@@ -154,9 +154,11 @@ def send_whatsapp_message(body, message):
 def make_ai_request(message, from_number):
     query = vectorize(message, 'question')
     result = ''
+    print(query)
     print(result)
     try:
         answers = DataStore.objects.filter(company_website="https://boookit.io")
+        print(answers)
         answers_with_distance = answers.annotate(
             distance=CosineDistance("embedding", query)
             ).order_by("distance")[:3]
