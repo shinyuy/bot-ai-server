@@ -130,7 +130,7 @@ def send_whatsapp_message(body, message):
         "Content-Type": "application/json",
     }
     print("222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
-    url = "https://graph.facebook.com/v20.0" + phone_number_id + "/messages"
+    url = "https://graph.facebook.com/v20.0/" + phone_number_id + "/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": from_number,
