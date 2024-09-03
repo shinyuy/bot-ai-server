@@ -12,7 +12,7 @@ from os import getenv
 # import soundfile as sf
 # import speech_recognition as sr
 import io
-from data_store.vector import vectorize, vector2text, get_chat_completion
+from data_store.vector import vectorize, vector2text, get_chat_completion, get_embeddings
 import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -153,7 +153,8 @@ def send_whatsapp_message(body, message):
    
    
 def make_ai_request(message, from_number):
-    query = vectorize(message, 'question')
+    # query = vectorize(message, 'question')
+    query = get_embeddings(message)
     result = ''
     print(query)
     print(result)

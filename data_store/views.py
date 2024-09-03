@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny
 import json
-from .vector import vectorize, vector2text, get_chat_completion
+from .vector import vectorize, vector2text, get_chat_completion, get_embeddings
 from pgvector.django import L2Distance
 from langchain_text_splitters import CharacterTextSplitter, RecursiveCharacterTextSplitter 
 from pgvector.django import CosineDistance
@@ -43,7 +43,8 @@ class DataStoreApiView(APIView):
         
         try:
             for index, chunk in enumerate(chunks): 
-                vectors = vectorize(chunk, request.data.get('name'))
+                # vectors = vectorize(chunk, request.data.get('name'))
+                vectors = get_embeddings(chunk)
                 
                 data = {
                     'name': request.data.get('name'), 
@@ -110,7 +111,8 @@ class QuestionApiView(APIView):
         website = request.data.get('website')
         print(request.data)
         print("000000000000000000000000000000000000000000000000000000000000000000000000")
-        query = vectorize(question, 'question')
+        # query = vectorize(question, 'question')
+        query = get_embeddings(question)
         print(query)
         result = ''
         try:

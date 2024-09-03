@@ -12,16 +12,39 @@ from langchain_community.vectorstores.pgvector import PGVector
 import numpy as np
 from os import getenv
 from langchain_core.prompts import ChatPromptTemplate
+import requests
+
+API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
+headers = {"Authorization": f"Bearer {getenv('HUGGINGFACEHUB_API_TOKEN')}"}
+
+def get_embeddings(text):
+    payload = {
+	"inputs": {
+	"source_sentence": text,
+	"sentences": [
+		text
+	        ]
+        },
+    }
+    response = requests.post(API_URL, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        embeddings = response.json()
+        print(embeddings)
+        return embeddings
+    else:
+        raise Exception(f"Failed to get embeddings: {response.status_code}, {response.text}")
+
 
 
 CONNECTION_STRING = getenv("DATABASE_URL")
 COLLECTION_NAME = 'test_vectors'
 
-
+model_kwargs = {'device': 'cpu'}
 def vectorize(text, name):
     print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
     print(text)
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2", model_kwargs=model_kwargs)
     print(embeddings)
     print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
     query_result = embeddings.embed_query(text)
