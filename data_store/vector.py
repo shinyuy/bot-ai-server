@@ -30,8 +30,10 @@ def get_embeddings(text):
 
     if response.status_code == 200:
         embeddings = response.json()
+        print(response)
         print(embeddings)
-        return embeddings
+        # print(embeddings.shape)
+        return embeddings * 768
     else:
         raise Exception(f"Failed to get embeddings: {response.status_code}, {response.text}")
 

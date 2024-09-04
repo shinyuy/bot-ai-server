@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'users',
     'data_store',
     'company',
-    'whatsapp'
+    'whatsapp',
+    'chats'
 ]
 
 MIDDLEWARE = [

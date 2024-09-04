@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import DataStore
 from .serializer import DataStoreSerializer
+from chats.serializer import ChatSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,6 +14,7 @@ from .vector import vectorize, vector2text, get_chat_completion, get_embeddings
 from pgvector.django import L2Distance
 from langchain_text_splitters import CharacterTextSplitter, RecursiveCharacterTextSplitter 
 from pgvector.django import CosineDistance
+from chats.models import Chat
   
 class DataStoreApiView(APIView):
     # add permission to check if user is authenticated  
@@ -105,16 +107,18 @@ class QuestionApiView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        print(request.data.get('website'))
         question = request.data.get('question')
         
         website = request.data.get('website')
-        print(request.data)
-        print("000000000000000000000000000000000000000000000000000000000000000000000000")
         # query = vectorize(question, 'question')
         query = get_embeddings(question)
         print(query)
         result = ''
+        data_source = ''
+        company_id = 0  
+        created_by = 0   
+        print("000000000000000000000000000000000000000000000000000000000000000000000000")
+
         try:
             answers = DataStore.objects.filter(company_website=website)
             answers_with_distance = answers.annotate(
@@ -125,10 +129,30 @@ class QuestionApiView(APIView):
                 if answer.company_website == website:
                     answer_text =  answer.content
                     result = result + " " + answer_text
+                    print(answer)
+                    data_source = answer.name  
+                    company_id = answer.company_id_id
+                    created_by = answer.created_by_id
                     
             res = get_chat_completion(question, result)            
             # answers = answers.get(company_id=company_id)
-            serializer = DataStoreSerializer(result, many=True)
+            # serializer = DataStoreSerializer(result, many=True)
+            print("uuoddddddddddddddddddddddddddddddddddddddddddddddddah")
+            data = {  
+                    'question': question,
+                    'answer': res,
+                    'company_id': company_id,   
+                    'company_website': website,
+                    'data_source': data_source,
+                    'created_by': created_by,
+                    }
+            
+            serializer = ChatSerializer(data=data)
+            if serializer.is_valid():
+                print("valid")
+                serializer.save()
+            if not serializer.is_valid():
+                print(serializer.errors) 
             return Response(res, status=status.HTTP_200_OK)  
         except DataStore.DoesNotExist:
             return Response("Sorry, I don't have a response to your query", status=status.HTTP_400_BAD_REQUEST)
