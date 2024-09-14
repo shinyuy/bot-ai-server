@@ -44,7 +44,7 @@ ALLOWED_HOSTS = ["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").spl
 
 INSTALLED_APPS = [
   'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',   
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'data_store',
     'company',
     'whatsapp',
-    'chats'
+    'chats',
+    'chatbots'
 ]
 
 MIDDLEWARE = [
@@ -211,7 +212,7 @@ DJOSER = {
     # 'ACTIVATION_URL': 'activation/{uid}/{token}',
     'USER_CREATE_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
-    'TOKEN_MODEL': None,
+    'TOKEN_MODEL': None,   
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS')
 }
 

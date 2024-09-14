@@ -25,5 +25,6 @@ urlpatterns = [
     path('api/', include('data_store.urls')),
     path('api/', include('whatsapp.urls')),
     path('api/', include('chats.urls')),
+    path('api/', include('chatbots.urls')),
 ]
 

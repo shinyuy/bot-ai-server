@@ -12,17 +12,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name='Chatbot',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('industry', models.CharField(max_length=100)),
-                ('number_of_chatbots', models.PositiveIntegerField(default=0)),
-                ('number_of_queries', models.PositiveIntegerField(default=0)),
-                ('number_of_users', models.PositiveIntegerField(default=0)),
+                ('number_of_queries', models.PositiveIntegerField()),
+                ('number_of_users', models.PositiveIntegerField()),
                 ('website', models.CharField(max_length=100, unique=True)),
-                ('country', models.CharField(max_length=100)),
-                ('phone', models.CharField(max_length=100, unique=True)),
+                ('phone_number', models.CharField(max_length=100, unique=True)),
             ],
         ),
     ]

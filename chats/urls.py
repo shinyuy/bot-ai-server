@@ -6,5 +6,5 @@ from .views import (
 )
 
 urlpatterns = [
-    path('chats/<str:company_id>', ChatApiView.as_view()),
+    path('chats', ChatApiView.as_view()),
 ]
