@@ -26,7 +26,7 @@ def stripe_webhook(request):
 
     try:
         event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret #getenv("STRIPE_SECRET_KEY")
+            payload, sig_header, getenv("STRIPE_SECRET_KEY") #endpoint_secret 
         )
     except ValueError as e:
         print(e)
