@@ -7,17 +7,22 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
+from django.http import JsonResponse
+from stripe_subscription.models import StripeSubscription
+   
 
 class CompanyApiView(APIView):
     # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-       
-        # company = Company.objects.get(user_id = request.user.id)
-        # serializer = CompanySerializer(company)
-        # return Response(serializer.data, status=status.HTTP_200_OK)
-    
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
         try:
             company = Company.objects.filter(user_id = request.user.id)
             serializer = CompanySerializer(company, many=True)
@@ -27,6 +32,14 @@ class CompanyApiView(APIView):
 
     # 2. Create
     def post(self, request, *args, **kwargs):
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+          
+        
         data = {
             'name': request.data.get('name'), 
             'website': request.data.get('website'), 
@@ -42,6 +55,13 @@ class CompanyApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, company_id, *args, **kwargs):
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+          
        
         company_instance = self.get_object(company_id, request.user.id)
         if not company_instance:
@@ -64,6 +84,13 @@ class CompanyApiView(APIView):
 
     # 5. Delete
     def delete(self, request, company_id, *args, **kwargs):
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+          
        
         company_instance = self.get_object(company_id, request.user.id)
         if not company_instance:

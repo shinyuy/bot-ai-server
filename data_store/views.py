@@ -15,17 +15,22 @@ from pgvector.django import L2Distance
 from langchain_text_splitters import CharacterTextSplitter, RecursiveCharacterTextSplitter 
 from pgvector.django import CosineDistance
 from chats.models import Chat
+from stripe_subscription.models import StripeSubscription
+from django.http import JsonResponse
+from chatbots.models import Chatbot
   
 class DataStoreApiView(APIView):
     # add permission to check if user is authenticated  
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-    
-        # data_store = DataStore.objects.filter(company_id = request.data['company_id'])
-        # serializer = DataStoreSerializer(data_store)
-        # return Response(serializer.data, status=status.HTTP_200_OK)
-    
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
         try:
             data_store = DataStore.objects.get(company_id = request.data['company_id'])
             serializer = DataStoreSerializer(data_store)
@@ -34,7 +39,14 @@ class DataStoreApiView(APIView):
             return Response("Not found", status=status.HTTP_400_BAD_REQUEST)
 
     # 2. Create
-    def post(self, request, *args, **kwargs):  
+    def post(self, request, *args, **kwargs):
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+          
         
         text_splitter = RecursiveCharacterTextSplitter (
             chunk_size=1000,
@@ -70,6 +82,13 @@ class DataStoreApiView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, data_store_id, *args, **kwargs):
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
        
         data_store_instance = self.get_object(data_store_id, request.user.id)
         if not data_store_instance:
@@ -89,6 +108,13 @@ class DataStoreApiView(APIView):
 
     # 5. Delete
     def delete(self, request, data_store_id, *args, **kwargs):
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
        
         data_store_instance = self.get_object(data_store_id, request.user.id)
         if not data_store_instance:
@@ -107,6 +133,7 @@ class QuestionApiView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
+        
         question = request.data.get('question')
         
         website = request.data.get('website')
@@ -164,6 +191,14 @@ class FileApiView(APIView):
     
     # Upload file
     def post(self, request, *args, **kwargs):  
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
+        
         data = {
             'filename': request.data.get('filename'), 
         }
@@ -183,6 +218,13 @@ class FileApiView(APIView):
     
     # 5. Delete
     def delete(self, request, data_store_id, *args, **kwargs):
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
        
         data_store_instance = self.get_object(data_store_id, request.user.id)
         if not data_store_instance:

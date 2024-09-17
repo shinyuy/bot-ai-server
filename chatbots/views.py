@@ -11,17 +11,21 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from collections import namedtuple
+from django.http import JsonResponse
+from stripe_subscription.models import StripeSubscription, UserProfile
    
 class ChatbotApiView(APIView):
     # add permission to check if user is authenticated  
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-          
-        # company = Company.objects.get(user_id = request.user.id)
-        # serializer = CompanySerializer(company)
-        # return Response(serializer.data, status=status.HTTP_200_OK)
-      
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
         try:  
             chatbot = Chatbot.objects.filter(user_id = request.user.id)
             serializer = ChatbotSerializer(chatbot, many=True)
@@ -31,7 +35,34 @@ class ChatbotApiView(APIView):
 
     # 2. Create
     def post(self, request, *args, **kwargs):
-        print(request.data)    
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
+        
+        user_profile = UserProfile.objects.get(user=user)
+        subscription_plan = user_profile.subscription_plan
+
+        # Get the total number of chatbots the user has already created
+        user_chatbots_count = Chatbot.objects.filter(user=user).count()
+
+        # Check if the user has reached their max chatbot limit
+        if user_chatbots_count >= subscription_plan.max_chatbots:
+            return JsonResponse({
+            'error': 'You have reached the maximum number of chatbots allowed by your subscription plan.'
+        }, status=400)
+
+        # Check if the user wants to enable social media access but doesn't have that feature
+        if request.data.get('enable_social_media') and not subscription_plan.has_social_media_access:
+            return JsonResponse({
+                'error': 'Your subscription plan does not allow chatbots with social media access.'
+        }, status=400)
+
+        
+          
         company = Company.objects.get(id = request.data.get('company'))   
        
         data = {
@@ -52,7 +83,14 @@ class ChatbotApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, company_id, *args, **kwargs):
-       
+        user = request.user
+
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
         company_instance = self.get_object(company_id, request.user.id)
         if not company_instance:
             return Response(
@@ -74,7 +112,14 @@ class ChatbotApiView(APIView):
 
     # 5. Delete
     def delete(self, request, company_id, *args, **kwargs):
-       
+        user = request.user
+
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
         company_instance = self.get_object(company_id, request.user.id)
         if not company_instance:
             return Response(
@@ -92,7 +137,13 @@ class StatsApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-       
+        
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
         try:
             chatbot = Chatbot.objects.filter(user_id = request.user.id).count()
             chats = Chat.objects.filter(created_by=request.user.id).count()
@@ -108,9 +159,12 @@ class ChatbotDetailsApiView(APIView):
 
     def get(self, request, *args, **kwargs):
           
-        # company = Company.objects.get(user_id = request.user.id)
-        # serializer = CompanySerializer(company)
-        # return Response(serializer.data, status=status.HTTP_200_OK)
+        user = request.user
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
       
         ChatbotDetails = namedtuple('ChatbotDetails', ('data_source', 'company'))
         try:  

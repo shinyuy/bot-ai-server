@@ -17,9 +17,31 @@ class Chatbot(models.Model):
     company_id = models.ForeignKey(Company, on_delete=models.CASCADE) 
     data_sources = models.ForeignKey(DataStore, on_delete=models.CASCADE) 
     public = models.BooleanField(default=True) 
+    is_social_media_enabled = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     
-    # def save(self, **kwargs):
-    #     company = self.model(**kwargs)
+    
+    def __str__(self):
+        return self.name
+    
+    def queries_this_month(self):
+        # Get the current month and year
+        current_month = now().month
+        current_year = now().year
 
-    #     company.save(using=self._db)
+        # Count the number of queries for the chatbot in the current month
+        return ChatbotQuery.objects.filter(
+            chatbot=self,
+            created_at__year=current_year,
+            created_at__month=current_month
+        ).count()
     
+    
+class ChatbotQuery(models.Model):
+    chatbot = models.ForeignKey(Chatbot, on_delete=models.CASCADE)
+    query_text = models.TextField()
+    response_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Query for {self.chatbot.name} at {self.created_at}"

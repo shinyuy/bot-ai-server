@@ -59,7 +59,8 @@ INSTALLED_APPS = [
     'company',
     'whatsapp',
     'chats',
-    'chatbots'
+    'chatbots',
+    'stripe_subscription'
 ]
 
 MIDDLEWARE = [

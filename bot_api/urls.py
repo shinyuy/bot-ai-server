@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+   
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('djoser.urls')),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/', include('data_store.urls')),
     path('api/', include('whatsapp.urls')),
     path('api/', include('chats.urls')),
-    path('api/', include('chatbots.urls')),
+    path('api/', include('chatbots.urls')),  
+    path('api/', include('stripe_subscription.urls')),
 ]
 
