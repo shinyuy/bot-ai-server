@@ -7,7 +7,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpResponse
 from os import getenv
-
+from data_store.vector import vectorize, vector2text, get_chat_completion, get_embeddings
+from pgvector.django import CosineDistance
+from data_store.models import DataStore
 
 class MessengerApiView(APIView):
     permission_classes = [AllowAny]
@@ -64,11 +66,37 @@ class MessengerApiView(APIView):
 
 def reply_to_user(recipient_id, message_text):
     FACEBOOK_PAGE_ACCESS_TOKEN = getenv('FACEBOOK_PAGE_ACCESS_TOKEN')
+    response_from_ai = make_ai_request(message_text, recipient_id)
+
     message_data = {
-            'recipient': {'id': recipient_id},
-            'message': {'text': f'You said: {message_text} yooooooooooooooooooooooooooo'}
+        'recipient': {'id': recipient_id},
+        'message': {'text': response_from_ai}
     }
     requests.post(
             f'https://graph.facebook.com/v11.0/me/messages?access_token={FACEBOOK_PAGE_ACCESS_TOKEN}',
             json=message_data
     )
+
+
+def make_ai_request(message, from_number):
+    # query = vectorize(message, 'question')
+    query = get_embeddings(message)
+    result = ''
+    print(query)
+    print(result)
+    try:
+        answers = DataStore.objects.filter(company_website="https://boookit.io")
+        print(answers)
+        answers_with_distance = answers.annotate(
+            distance=CosineDistance("embedding", query)
+            ).order_by("distance")[:3]
+        for answer in answers_with_distance:  
+            if answer.company_website == "https://boookit.io":
+                answer_text =  answer.content
+                result = result + " " + answer_text
+        print(result)        
+        res = get_chat_completion(message, result)   
+        print(res)   
+        return res  
+    except DataStore.DoesNotExist:
+        return "Sorry, I don't have a response to your query"  
