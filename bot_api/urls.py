@@ -27,5 +27,6 @@ urlpatterns = [
     path('api/', include('chats.urls')),
     path('api/', include('chatbots.urls')),  
     path('api/', include('stripe_subscription.urls')),
+    path('api/', include('messenger.urls')),
 ]
 
