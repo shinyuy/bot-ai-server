@@ -42,7 +42,7 @@ class MessengerApiView(APIView):
     def messenger_webhook(request):
         if request.method == 'GET':
             # Verify webhook
-            verify_token = 'YOUR_VERIFY_TOKEN'
+            verify_token = getenv('FACEBOOK_VERIFY_TOKEN')
             if request.GET.get('hub.mode') == 'subscribe' and request.GET.get('hub.verify_token') == verify_token:
                 return JsonResponse(int(request.GET.get('hub.challenge')), safe=False)
             else:
@@ -62,13 +62,13 @@ class MessengerApiView(APIView):
 
             return JsonResponse(status=200)
 
-    def reply_to_user(recipient_id, message_text):
-        PAGE_ACCESS_TOKEN = 'YOUR_PAGE_ACCESS_TOKEN'
-        message_data = {
+def reply_to_user(recipient_id, message_text):
+    FACEBOOK_PAGE_ACCESS_TOKEN = getenv('FACEBOOK_PAGE_ACCESS_TOKEN')
+    message_data = {
             'recipient': {'id': recipient_id},
-            'message': {'text': f'You said: {message_text}'}
-        }
-        requests.post(
-            f'https://graph.facebook.com/v11.0/me/messages?access_token={PAGE_ACCESS_TOKEN}',
+            'message': {'text': f'You said: {message_text} yooooooooooooooooooooooooooo'}
+    }
+    requests.post(
+            f'https://graph.facebook.com/v11.0/me/messages?access_token={FACEBOOK_PAGE_ACCESS_TOKEN}',
             json=message_data
-        )
+    )
