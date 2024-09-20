@@ -8,7 +8,7 @@ from data_store.models import DataStore
 class Chatbot(models.Model):
     # id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    industry = models.CharField(max_length=100, null=True)
+    industry = models.CharField(max_length=100, default='')
     number_of_queries = models.PositiveIntegerField(default=0)
     number_of_users = models.PositiveIntegerField(default=0)
     website = models.CharField(max_length=100, unique=True)

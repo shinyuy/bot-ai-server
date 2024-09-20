@@ -44,23 +44,23 @@ class ChatbotApiView(APIView):
             return JsonResponse({'error': 'No valid subscription'}, status=403)
         
         
-        user_profile = UserProfile.objects.get(user=user)
-        subscription_plan = user_profile.subscription_plan
+        # user_profile = UserProfile.objects.get(user=user)
+        # subscription_plan = user_profile.subscription_plan
 
-        # Get the total number of chatbots the user has already created
-        user_chatbots_count = Chatbot.objects.filter(user=request.user.id).count()
+        # # Get the total number of chatbots the user has already created
+        # user_chatbots_count = Chatbot.objects.filter(user=request.user.id).count()
 
-        # Check if the user has reached their max chatbot limit
-        if user_chatbots_count >= subscription_plan.max_chatbots:
-            return JsonResponse({
-            'error': 'You have reached the maximum number of chatbots allowed by your subscription plan.'
-        }, status=400)
+        # # Check if the user has reached their max chatbot limit
+        # if user_chatbots_count >= subscription_plan.max_chatbots:
+        #     return JsonResponse({
+        #     'error': 'You have reached the maximum number of chatbots allowed by your subscription plan.'
+        # }, status=400)
 
-        # Check if the user wants to enable social media access but doesn't have that feature
-        if request.data.get('enable_social_media') and not subscription_plan.has_social_media_access:
-            return JsonResponse({
-                'error': 'Your subscription plan does not allow chatbots with social media access.'
-        }, status=400)
+        # # Check if the user wants to enable social media access but doesn't have that feature
+        # if request.data.get('enable_social_media') and not subscription_plan.has_social_media_access:
+        #     return JsonResponse({
+        #         'error': 'Your subscription plan does not allow chatbots with social media access.'
+        # }, status=400)
 
         
           
@@ -73,7 +73,7 @@ class ChatbotApiView(APIView):
             'phone_number': company.phone,   
             'country': company.country, 
             'user_id': request.user.id,
-            'industry': company.industry,
+            'industry': "Industry",
             'data_sources': request.data.get('data_source')
         }
         serializer = ChatbotSerializer(data=data)
