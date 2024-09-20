@@ -25,7 +25,7 @@ class CompanyApiView(APIView):
             return JsonResponse({'error': 'No valid subscription'}, status=403)
         
         try:
-            company = Company.objects.get(user_id = request.user.id)
+            company = Company.objects.filter(user_id = request.user.id)
             serializer = CompanySerializer(company, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Company.DoesNotExist:
