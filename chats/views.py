@@ -6,15 +6,15 @@ from .models import Chat
 from .serializer import ChatSerializer
 from stripe_subscription.models import StripeSubscription
 from django.http import JsonResponse
-   
+from users.models import UserAccount   
 
 class ChatApiView(APIView):
      # add permission to check if user is authenticated  
     permission_classes = [permissions.IsAuthenticated]
   
     def get(self, request, *args, **kwargs):
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)

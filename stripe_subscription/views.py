@@ -60,7 +60,7 @@ def handle_subscription_created(event):
     user = UserAccount.objects.get(email=customer_email)
     try:
         StripeSubscription.objects.create(
-        user=user.id, stripe_customer_id=customer_id, end_date=current_period_end, created_at=current_period_start,
+        user=user, stripe_customer_id=customer_id, end_date=current_period_end, created_at=current_period_start,
         stripe_subscription_id=subscription_id, active=True)
     except StripeSubscription.DoesNotExist:
         print('Not found')    

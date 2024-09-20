@@ -13,6 +13,7 @@ from rest_framework import permissions
 from collections import namedtuple
 from django.http import JsonResponse
 from stripe_subscription.models import StripeSubscription, UserProfile
+from users.models import UserAccount
    
 class ChatbotApiView(APIView):
     # add permission to check if user is authenticated  
@@ -20,8 +21,8 @@ class ChatbotApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -36,8 +37,8 @@ class ChatbotApiView(APIView):
     # 2. Create
     def post(self, request, *args, **kwargs):
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -83,10 +84,9 @@ class ChatbotApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, company_id, *args, **kwargs):
-        user = request.user
 
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -112,10 +112,9 @@ class ChatbotApiView(APIView):
 
     # 5. Delete
     def delete(self, request, company_id, *args, **kwargs):
-        user = request.user
 
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -138,8 +137,8 @@ class StatsApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -159,8 +158,8 @@ class ChatbotDetailsApiView(APIView):
 
     def get(self, request, *args, **kwargs):
           
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)

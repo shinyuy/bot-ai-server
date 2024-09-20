@@ -18,6 +18,7 @@ from chats.models import Chat
 from stripe_subscription.models import StripeSubscription
 from django.http import JsonResponse
 from chatbots.models import Chatbot
+from users.models import UserAccount
   
 class DataStoreApiView(APIView):
     # add permission to check if user is authenticated  
@@ -25,8 +26,8 @@ class DataStoreApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -41,8 +42,8 @@ class DataStoreApiView(APIView):
     # 2. Create
     def post(self, request, *args, **kwargs):
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -83,8 +84,8 @@ class DataStoreApiView(APIView):
     
     def put(self, request, data_store_id, *args, **kwargs):
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -109,8 +110,8 @@ class DataStoreApiView(APIView):
     # 5. Delete
     def delete(self, request, data_store_id, *args, **kwargs):
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -192,8 +193,8 @@ class FileApiView(APIView):
     # Upload file
     def post(self, request, *args, **kwargs):  
         
-        user = request.user
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        user = UserAccount.objects.get(user_id = request.user.id)
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -219,7 +220,7 @@ class FileApiView(APIView):
     # 5. Delete
     def delete(self, request, data_store_id, *args, **kwargs):
         
-        user = request.user
+        user = UserAccount.objects.get(user_id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
