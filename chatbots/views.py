@@ -44,7 +44,7 @@ class ChatbotApiView(APIView):
             return JsonResponse({'error': 'No valid subscription'}, status=403)
         
         
-        user_profile = UserProfile.objects.get(user=request.user.id)
+        user_profile = UserProfile.objects.get(user=user)
         subscription_plan = user_profile.subscription_plan
 
         # Get the total number of chatbots the user has already created

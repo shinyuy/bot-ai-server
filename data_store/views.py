@@ -221,7 +221,7 @@ class FileApiView(APIView):
     def delete(self, request, data_store_id, *args, **kwargs):
         
         user = UserAccount.objects.get(id = request.user.id)
-        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
