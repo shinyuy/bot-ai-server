@@ -14,7 +14,7 @@ class ChatApiView(APIView):
   
     def get(self, request, *args, **kwargs):
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)

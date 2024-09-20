@@ -26,7 +26,7 @@ class DataStoreApiView(APIView):
     def get(self, request, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -42,7 +42,7 @@ class DataStoreApiView(APIView):
     def post(self, request, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -84,7 +84,7 @@ class DataStoreApiView(APIView):
     def put(self, request, data_store_id, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -110,7 +110,7 @@ class DataStoreApiView(APIView):
     def delete(self, request, data_store_id, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -193,7 +193,7 @@ class FileApiView(APIView):
     def post(self, request, *args, **kwargs):  
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -220,7 +220,7 @@ class FileApiView(APIView):
     def delete(self, request, data_store_id, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)

@@ -21,7 +21,7 @@ class ChatbotApiView(APIView):
     def get(self, request, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -37,17 +37,17 @@ class ChatbotApiView(APIView):
     def post(self, request, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
         
         
-        user_profile = UserProfile.objects.get(user=user)
+        user_profile = UserProfile.objects.get(user=request.user.id)
         subscription_plan = user_profile.subscription_plan
 
         # Get the total number of chatbots the user has already created
-        user_chatbots_count = Chatbot.objects.filter(user=user).count()
+        user_chatbots_count = Chatbot.objects.filter(user=request.user.id).count()
 
         # Check if the user has reached their max chatbot limit
         if user_chatbots_count >= subscription_plan.max_chatbots:
@@ -86,7 +86,7 @@ class ChatbotApiView(APIView):
         user = request.user
 
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -115,7 +115,7 @@ class ChatbotApiView(APIView):
         user = request.user
 
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -139,7 +139,7 @@ class StatsApiView(APIView):
     def get(self, request, *args, **kwargs):
         
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)
@@ -160,7 +160,7 @@ class ChatbotDetailsApiView(APIView):
     def get(self, request, *args, **kwargs):
           
         user = request.user
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():
             return JsonResponse({'error': 'No valid subscription'}, status=403)

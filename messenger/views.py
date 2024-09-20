@@ -100,3 +100,5 @@ def make_ai_request(message, from_number):
         return res  
     except DataStore.DoesNotExist:
         return "Sorry, I don't have a response to your query"  
+    
+    
