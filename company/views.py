@@ -18,7 +18,7 @@ class CompanyApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -34,7 +34,7 @@ class CompanyApiView(APIView):
     # 2. Create
     def post(self, request, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -57,7 +57,7 @@ class CompanyApiView(APIView):
     
     def put(self, request, company_id, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -86,7 +86,7 @@ class CompanyApiView(APIView):
     # 5. Delete
     def delete(self, request, company_id, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():

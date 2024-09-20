@@ -26,7 +26,7 @@ class DataStoreApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -42,7 +42,7 @@ class DataStoreApiView(APIView):
     # 2. Create
     def post(self, request, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -84,7 +84,7 @@ class DataStoreApiView(APIView):
     
     def put(self, request, data_store_id, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -110,7 +110,7 @@ class DataStoreApiView(APIView):
     # 5. Delete
     def delete(self, request, data_store_id, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -193,7 +193,7 @@ class FileApiView(APIView):
     # Upload file
     def post(self, request, *args, **kwargs):  
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -220,7 +220,7 @@ class FileApiView(APIView):
     # 5. Delete
     def delete(self, request, data_store_id, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
         if not subscription or not subscription.is_valid():

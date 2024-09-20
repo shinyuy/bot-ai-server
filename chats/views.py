@@ -13,7 +13,7 @@ class ChatApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
   
     def get(self, request, *args, **kwargs):
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():

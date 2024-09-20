@@ -21,7 +21,7 @@ class ChatbotApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -37,7 +37,7 @@ class ChatbotApiView(APIView):
     # 2. Create
     def post(self, request, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -85,7 +85,7 @@ class ChatbotApiView(APIView):
     
     def put(self, request, company_id, *args, **kwargs):
 
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -113,7 +113,7 @@ class ChatbotApiView(APIView):
     # 5. Delete
     def delete(self, request, company_id, *args, **kwargs):
 
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -137,7 +137,7 @@ class StatsApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
@@ -158,7 +158,7 @@ class ChatbotDetailsApiView(APIView):
 
     def get(self, request, *args, **kwargs):
           
-        user = UserAccount.objects.get(user_id = request.user.id)
+        user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
         if not subscription or not subscription.is_valid():
