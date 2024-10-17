@@ -4,11 +4,13 @@ from django.urls import path, include
 from .views import (
     ChatbotApiView,
     StatsApiView,
-    ChatbotDetailsApiView
+    ChatbotDetailsApiView,
+    LogoApiView
 )
 
 urlpatterns = [
     path('chatbots', ChatbotApiView.as_view()),
+    path('logo/upload', LogoApiView.as_view()),
     path('chatbots/details/', ChatbotDetailsApiView.as_view()),
     path('stats', StatsApiView.as_view()),
 ]

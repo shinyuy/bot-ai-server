@@ -6,8 +6,7 @@ from company.serializer import CompanySerializer
 class ChatbotSerializer(serializers.ModelSerializer):
     class Meta:
         model=Chatbot
-        fields=('id', 'name','website', 'phone_number', 'industry', 'company_id', 'data_sources', 'number_of_queries', 'number_of_users', 'user_id')
+        fields=('id', 'name', 'link_to_logo', 'public', 'hide_branding', 'chatbot_url', 'data_sources', 'number_of_queries', 'number_of_users', 'user_id')
 
 class ChatbotDetailsSerializer(serializers.Serializer):
     data_source = DataStoreSerializer(many=True)
-    company = CompanySerializer(many=True)

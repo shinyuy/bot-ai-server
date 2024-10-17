@@ -14,6 +14,9 @@ from collections import namedtuple
 from django.http import JsonResponse
 from stripe_subscription.models import StripeSubscription, UserProfile
 from users.models import UserAccount
+from .static_files import generate_html_css, save_files, upload_to_backblaze, upload_logo
+from rest_framework.parsers import MultiPartParser, FormParser
+from os import getenv, path
    
 class ChatbotApiView(APIView):
     # add permission to check if user is authenticated  
@@ -24,8 +27,8 @@ class ChatbotApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        if not subscription or not subscription.is_valid():
-            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        # if not subscription or not subscription.is_valid():
+        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
         
         try:  
             chatbot = Chatbot.objects.filter(user_id = request.user.id)
@@ -40,8 +43,8 @@ class ChatbotApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        if not subscription or not subscription.is_valid():
-            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        # if not subscription or not subscription.is_valid():
+        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
         
         
         # user_profile = UserProfile.objects.get(user=user)
@@ -52,29 +55,33 @@ class ChatbotApiView(APIView):
 
         # # Check if the user has reached their max chatbot limit
         # if user_chatbots_count >= subscription_plan.max_chatbots:
-        #     return JsonResponse({
+        #     return JsonResponse({  
         #     'error': 'You have reached the maximum number of chatbots allowed by your subscription plan.'
         # }, status=400)
-
+   
         # # Check if the user wants to enable social media access but doesn't have that feature
         # if request.data.get('enable_social_media') and not subscription_plan.has_social_media_access:
         #     return JsonResponse({
         #         'error': 'Your subscription plan does not allow chatbots with social media access.'
         # }, status=400)
 
+            
+        files = generate_html_css(request.data.get('name'),request.data.get('logo_url'), request.data.get('primary_color'), request.data.get('welcomeMessage'), request.data.get('placeholderText'), request.data.get('hideBranding')) 
         
-          
-        company = Company.objects.get(id = request.data.get('company'))   
+        
+        paths = save_files(files['html_content'], files['css_content'], request.data.get('name'), user.external_id) 
+         
+        chatbot_url = upload_to_backblaze(paths['html_file_path'], paths['css_file_path'], getenv('BACKBLAZE_KEY_NAME'), getenv('BACKBLAZE_API_KEY_ID'), getenv('BACKBLAZE_API_KEY'))
+        
+        data = {    
+            'name': request.data.get('name'),   
+            'user_id': request.user.id, 
+            'data_sources': request.data.get('data_source'), 
+            'public' : request.data.get('chatbot_public'), 
+            'hide_branding' : request.data.get('hideBranding'),   
+            'chatbot_url' : chatbot_url,
+            'link_to_logo' : request.data.get('logo_url')   
        
-        data = {
-            'name': request.data.get('name'), 
-            'company_id': request.data.get('company'), 
-            'website': company.website, 
-            'phone_number': company.phone,   
-            'country': company.country, 
-            'user_id': request.user.id,
-            'industry': "Industry",
-            'data_sources': request.data.get('data_source')
         }
         serializer = ChatbotSerializer(data=data)
         if serializer.is_valid():
@@ -161,17 +168,36 @@ class ChatbotDetailsApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        if not subscription or not subscription.is_valid():
-            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        # if not subscription or not subscription.is_valid():
+        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
         
       
-        ChatbotDetails = namedtuple('ChatbotDetails', ('data_source', 'company'))
+        ChatbotDetails = namedtuple('ChatbotDetails', ('data_source'))
         try:  
             chatbotDetails = ChatbotDetails(
-            data_source = DataStore.objects.filter(created_by = request.user.id, id=request.query_params.get('data_source_id')),
-            company = Company.objects.filter(user_id = request.user.id, id=request.query_params.get('company_id'))
+            data_source = DataStore.objects.filter(created_by = user.external_id, id=request.query_params.get('data_source_id')),
             )  
             serializer = ChatbotDetailsSerializer(chatbotDetails)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Chatbot.DoesNotExist:
-            return Response("Not found", status=status.HTTP_400_BAD_REQUEST)        
+            return Response("Not found", status=status.HTTP_400_BAD_REQUEST)   
+        
+        
+class LogoApiView(APIView):
+    permission_classes = [permissions.AllowAny]
+    parser_classes = (MultiPartParser, FormParser)  # Ensure this is set
+    def post(self, request, *args, **kwargs):
+        if 'file' not in request.FILES:
+            return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        file_obj = request.FILES['file']
+        uploaded_logo = upload_logo(file_obj)  
+        
+        return Response({
+            'message': 'File uploaded successfully',
+            'logo': uploaded_logo['secure_url'],  # Return URL to access the file if needed
+            'public_id': uploaded_logo['public_id']  # Return URL to access the file if needed
+        }, status=status.HTTP_201_CREATED)
+        
+         
+             

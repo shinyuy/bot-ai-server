@@ -8,17 +8,19 @@ from data_store.models import DataStore
 class Chatbot(models.Model):
     # id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    industry = models.CharField(max_length=100, default='')
     number_of_queries = models.PositiveIntegerField(default=0)
     number_of_users = models.PositiveIntegerField(default=0)
-    website = models.CharField(max_length=100, unique=True)
-    phone_number = models.CharField(max_length=100, unique=True)
+    # website = models.CharField(max_length=100, unique=True)
+    # phone_number = models.CharField(max_length=100, unique=True)
     user_id = models.ForeignKey(UserAccount, on_delete=models.CASCADE) 
-    company_id = models.ForeignKey(Company, on_delete=models.CASCADE) 
+    # company_id = models.ForeignKey(Company, on_delete=models.CASCADE) 
     data_sources = models.ForeignKey(DataStore, on_delete=models.CASCADE) 
     public = models.BooleanField(default=True) 
+    hide_branding = models.BooleanField(default=False) 
     is_social_media_enabled = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    chatbot_url = models.CharField(max_length=200, unique=True)
+    link_to_logo = models.CharField(max_length=200, unique=True)
     
     
     def __str__(self):

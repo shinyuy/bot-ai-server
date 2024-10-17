@@ -45,11 +45,11 @@ class DataStoreApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        if not subscription or not subscription.is_valid():
-            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        # if not subscription or not subscription.is_valid():
+        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
           
         
-        text_splitter = RecursiveCharacterTextSplitter (
+        text_splitter = RecursiveCharacterTextSplitter (   
             chunk_size=1000,
             chunk_overlap=50
         )
@@ -62,13 +62,13 @@ class DataStoreApiView(APIView):
                 vectors = get_embeddings(chunk)
                 
                 data = {
-                    'name': request.data.get('name'), 
-                    'company_id': request.data.get('id'),   
-                    'company_website': request.data.get('company_website'),   
-                    'created_by': request.user.id,
+                    'name': request.data.get('name'),   
+                    # 'company_id': request.data.get('id'),   
+                    # 'company_website': request.data.get('company_website'),   
+                    'created_by': user.external_id,
                     'content': chunk,
                     'embedding': vectors,
-                    'tokens': index,  
+                    'tokens': index,     
                     }
                 serializer = DataStoreSerializer(data=data)
                 print("00000000000000000000000000000000000000000000000000000000000000000000000000000000")
@@ -137,29 +137,27 @@ class QuestionApiView(APIView):
         
         question = request.data.get('question')
         
-        website = request.data.get('website')
+        external_id = request.data.get('external_id')
         # query = vectorize(question, 'question')
         query = get_embeddings(question)
         print(query)
         result = ''
         data_source = ''
-        company_id = 0  
         created_by = 0   
         print("000000000000000000000000000000000000000000000000000000000000000000000000")
 
         try:
-            answers = DataStore.objects.filter(company_website=website)
+            answers = DataStore.objects.filter(created_by=external_id)
             answers_with_distance = answers.annotate(
                 distance=CosineDistance("embedding", query)
                 ).order_by("distance")[:3]
             # answers = DataStore.objects.order_by(L2Distance('embedding', query))[:3]
             for answer in answers_with_distance:  
-                if answer.company_website == website:
+                if answer.created_by == external_id:
                     answer_text =  answer.content
                     result = result + " " + answer_text
                     print(answer)
                     data_source = answer.name  
-                    company_id = answer.company_id_id
                     created_by = answer.created_by_id
                     
             res = get_chat_completion(question, result)            
@@ -168,9 +166,7 @@ class QuestionApiView(APIView):
             print("uuoddddddddddddddddddddddddddddddddddddddddddddddddah")
             data = {  
                     'question': question,
-                    'answer': res,
-                    'company_id': company_id,   
-                    'company_website': website,
+                    'answer': res, 
                     'data_source': data_source,
                     'created_by': created_by,
                     }

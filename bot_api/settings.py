@@ -61,7 +61,9 @@ INSTALLED_APPS = [
     'chats',
     'chatbots',
     'stripe_subscription',
-    'messenger'
+    'messenger',
+    'calls',
+    'channels'
 ]
 
 MIDDLEWARE = [

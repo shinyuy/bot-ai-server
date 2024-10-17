@@ -3,14 +3,15 @@ from pgvector.django import VectorField
 from company.models import Company
 from users.models import UserAccount
 from pgvector.django import HnswIndex
+import uuid
 
 # Create your models here.
 class DataStore(models.Model):
     # id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(max_length=500)
-    company_id = models.ForeignKey(Company, on_delete=models.CASCADE) #.PositiveIntegerField()
-    created_by = models.ForeignKey(UserAccount, on_delete=models.CASCADE) #.PositiveIntegerField()
-    company_website = models.CharField(max_length=500)
+    # company_id = models.ForeignKey(Company, on_delete=models.CASCADE) #.PositiveIntegerField()
+    created_by = models.UUIDField(default=uuid.uuid4, editable=False) # models.ForeignKey(UserAccount, on_delete=models.CASCADE)   #.PositiveIntegerField()
+    # company_website = models.CharField(max_length=500)
     tokens = models.PositiveIntegerField()
     content = models.TextField("Content", null=False, blank=False)
     embedding = VectorField(

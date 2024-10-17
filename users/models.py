@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
 )
 from django.conf import settings
 from django.core.mail import send_mail
+import uuid
 
 
 class UserAccountManager(BaseUserManager):
@@ -15,6 +16,7 @@ class UserAccountManager(BaseUserManager):
 
         email = self.normalize_email(email)
         email = email.lower()
+        external_id = uuid.uuid4()
 
         user = self.model(
             email=email,
@@ -51,6 +53,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True, max_length=255)
+    external_id = models.UUIDField(default=uuid.uuid4, editable=False)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

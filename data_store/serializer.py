@@ -4,4 +4,4 @@ from .models import DataStore
 class DataStoreSerializer(serializers.ModelSerializer):
     class Meta:
         model=DataStore
-        fields=('id', 'name', 'company_id', 'created_by', 'company_website', 'tokens','embedding', 'content')
+        fields=('id', 'name', 'created_by', 'tokens','embedding', 'content')
