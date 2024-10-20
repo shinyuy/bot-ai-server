@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'whatsapp',
     'chats',
     'chatbots',
-    'stripe_subscription',
+    'stripe_subscription', 
     'messenger',
     'calls',
     'channels'
@@ -243,7 +243,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 #     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev',
     
 # ).split(',')
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
  
 
