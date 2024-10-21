@@ -37,9 +37,17 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv("DEBUG", "False") == "False"
 
-ALLOWED_HOSTS = ["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-CORS_ALLOWED_ORIGINS = ["*"]
-CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS = getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
+    
+).split(',')  #["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+CORS_ALLOWED_ORIGINS = getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
+    
+).split(',') #["*"]
+# CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
