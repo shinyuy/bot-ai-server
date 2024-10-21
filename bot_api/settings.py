@@ -135,7 +135,7 @@ PROTOCOL = "http"
 DOMAIN = "127.0.0.1:8000"
  
 DOMAIN = getenv('DOMAIN')
-SITE_NAME = 'BOT API'    
+SITE_NAME = 'Contexx AI'    
 
 
 # Password validation   
@@ -238,13 +238,13 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
-# CORS_ALLOWED_ORIGINS = getenv(
-#     'CORS_ALLOWED_ORIGINS',
-#     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev',
+CORS_ALLOWED_ORIGINS = getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
     
-# ).split(',')
-# CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+).split(',')
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = True
  
 
 CORS_ALLOW_HEADERS = (
