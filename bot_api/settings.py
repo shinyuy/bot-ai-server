@@ -37,16 +37,23 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv("DEBUG", "False") == "False"
 
-ALLOWED_HOSTS = getenv(
-    'CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '59888bf6.bot-client-2b4.pages.dev',
+    'contexxai.com',
+ ]
+#["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+# ALLOWED_HOSTS = getenv(
+#     'CORS_ALLOWED_ORIGINS',
+#     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
     
-).split(',')  #["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-CORS_ALLOWED_ORIGINS = getenv(
-    'CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
+# ).split(',')  #["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+# CORS_ALLOWED_ORIGINS = getenv(
+#     'CORS_ALLOWED_ORIGINS',
+#     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
     
-).split(',') #["*"]
+# ).split(',') #["*"]
 # CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
@@ -72,14 +79,16 @@ INSTALLED_APPS = [
     'stripe_subscription', 
     'messenger',
     'calls',
-    'channels'
+    'channels',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
+    # 'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -246,13 +255,28 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
-CORS_ALLOWED_ORIGINS = getenv(
-    'CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://59888bf6.bot-client-2b4.pages.dev',
+    'https://contexxai.com',
+]
+# CORS_ALLOWED_ORIGINS = getenv(
+#     'CORS_ALLOWED_ORIGINS',
+#     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
     
-).split(',')
+# ).split(',')
 CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
  
 
 CORS_ALLOW_HEADERS = (
@@ -261,6 +285,19 @@ CORS_ALLOW_HEADERS = (
     "content-type",
     "user-agent"
 )
+
+
+# class DynamicCorsMiddleware(CorsMiddleware):
+#     def process_response(self, request, response):
+#         origin = request.META.get('HTTP_ORIGIN')
+#         # Check if the origin is in the list of allowed domains (from database)
+#         if origin and AllowedDomain.objects.filter(domain=origin).exists():
+#             response['Access-Control-Allow-Origin'] = origin
+#             response['Access-Control-Allow-Credentials'] = 'true'
+#         else:
+#             return HttpResponseForbidden("Origin not allowed")
+#         return response
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
