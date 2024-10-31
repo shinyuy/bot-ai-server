@@ -267,11 +267,11 @@ CORS_ALLOWED_ORIGINS = [
     
 # ).split(',')
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_METHODS = (
     "DELETE",
-    "GET",  
+    "GET",
     "OPTIONS",
     "PATCH",
     "POST",
