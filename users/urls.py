@@ -9,12 +9,11 @@ from .views import (
 )
 
 urlpatterns = [
-    # re_path(
-    #     r'^o/(?P<provider>\S+)/$',
-    #     CustomProviderAuthView.as_view(),
-    #     name='provider-auth'
-    # ),
-    path('', CustomProviderAuthView.as_view()),
+    re_path(
+        r'^o/(?P<provider>\S+)/$',
+        CustomProviderAuthView.as_view(),
+        name='provider-auth'
+    ),
     path('jwt/create/', CustomTokenObtainPairView.as_view()),
     path('jwt/refresh/', CustomTokenRefreshView.as_view()),
     path('jwt/verify/', CustomTokenVerifyView.as_view()),

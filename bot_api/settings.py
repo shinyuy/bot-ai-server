@@ -43,6 +43,36 @@ ALLOWED_HOSTS = [
     '59888bf6.bot-client-2b4.pages.dev',
     'contexxai.com',
  ]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://59888bf6.bot-client-2b4.pages.dev',
+    'https://contexxai.com',
+]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://59888bf6.bot-client-2b4.pages.dev',
+    'https://contexxai.com',
+]
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+ 
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent"
+)
 #["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 # ALLOWED_HOSTS = getenv(
 #     'CORS_ALLOWED_ORIGINS',
@@ -255,19 +285,25 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://59888bf6.bot-client-2b4.pages.dev',
-    'https://contexxai.com',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+#     'https://59888bf6.bot-client-2b4.pages.dev',
+#     'https://contexxai.com',
+# ]
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+#     'https://59888bf6.bot-client-2b4.pages.dev',
+#     'https://contexxai.com',
+# ]
 # CORS_ALLOWED_ORIGINS = getenv(
 #     'CORS_ALLOWED_ORIGINS',
 #     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
     
 # ).split(',')
-CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_METHODS = (
     "DELETE",
