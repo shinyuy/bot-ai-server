@@ -288,7 +288,6 @@ LOGGING = {
 
 CORS_ALLOWED_ORIGINS = [ 
     'https://contexxai.com',
-    'contexxai.com',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
@@ -297,7 +296,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ORIGIN_WHITELIST = [
     'https://contexxai.com',
-    'contexxai.com'
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
