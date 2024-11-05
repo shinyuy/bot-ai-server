@@ -286,11 +286,20 @@ LOGGING = {
     }
 }
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [ 
+    'https://contexxai.com',
+    'contexxai.com',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'https://59888bf6.bot-client-2b4.pages.dev',
+   
+]
+CORS_ORIGIN_WHITELIST = [
     'https://contexxai.com',
+    'contexxai.com'
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://59888bf6.bot-client-2b4.pages.dev',
 ]
 CORS_ALLOW_CREDENTIALS = True
 
