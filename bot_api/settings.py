@@ -45,6 +45,26 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
+# CORS_ALLOWED_ORIGINS = [ 
+#     'https://contexxai.com',
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+#     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+#     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+# ]
+
+CORS_ORIGIN_ALLOW_ALL=True
+
+CORS_ORIGIN_WHITELIST = (
+    'https://contexxai.com',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app',
+)
+
+CORS_ALLOW_CREDENTIALS = True
+
 INSTALLED_APPS = [
   'django.contrib.admin',
     'django.contrib.auth',   
@@ -70,9 +90,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -285,23 +305,6 @@ LOGGING = {
         }
     }
 }
-
-CORS_ALLOWED_ORIGINS = [ 
-    'https://contexxai.com',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',
-   
-]
-CORS_ORIGIN_WHITELIST = [
-    'https://contexxai.com',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',
-]
-CORS_ALLOW_CREDENTIALS = True
 
 # CORS_ALLOW_METHODS = (
 #     "DELETE",
