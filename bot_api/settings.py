@@ -291,7 +291,8 @@ CORS_ALLOWED_ORIGINS = [
     'contexxai.com',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'https://59888bf6.bot-client-2b4.pages.dev',
+    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app',
    
 ]
 CORS_ORIGIN_WHITELIST = [
@@ -299,7 +300,8 @@ CORS_ORIGIN_WHITELIST = [
     'contexxai.com'
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'https://59888bf6.bot-client-2b4.pages.dev',
+    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app',
 ]
 CORS_ALLOW_CREDENTIALS = True
 
