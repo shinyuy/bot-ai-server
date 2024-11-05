@@ -15,10 +15,20 @@ from rest_framework.permissions import AllowAny
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
+        print(response)
 
         if response.status_code == 201:
             access_token = response.data.get('access')
             refresh_token = response.data.get('refresh')
+            response["Access-Control-Allow-Origin"] = "*"
+            
+#             CORS_ORIGIN_WHITELIST = [
+#     'https://contexxai.com',
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+#     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+#     'https://bot-ai-git-master-shinyuys-projects.vercel.app',
+# ]
 
             response.set_cookie(
                 'access',
