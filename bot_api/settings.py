@@ -31,11 +31,10 @@ DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE', 'False') == 'True'
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-^oqil4^rz((m7cn*n_yo#jf4o0a21@jltaq#yb^1^=-g9r-&uh'
 SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv("DEBUG", "False") == "False"
+DEBUG = getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -43,18 +42,6 @@ ALLOWED_HOSTS = [
     '59888bf6.bot-client-2b4.pages.dev',
     'contexxai.com',
  ]
-#["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-# ALLOWED_HOSTS = getenv(
-#     'CORS_ALLOWED_ORIGINS',
-#     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
-    
-# ).split(',')  #["*"] #getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-# CORS_ALLOWED_ORIGINS = getenv(
-#     'CORS_ALLOWED_ORIGINS',
-#     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
-    
-# ).split(',') #["*"]
-# CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -83,12 +70,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
-    # 'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -119,8 +104,8 @@ WSGI_APPLICATION = 'bot_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if DEVELOPMENT_MODE is True:
-       DATABASES = {
+# if DEVELOPMENT_MODE is True:
+DATABASES = {
         "default" : {
             "ENGINE": "django.db.backends.postgresql",
             "NAME":  getenv("DB"),
@@ -130,12 +115,12 @@ if DEVELOPMENT_MODE is True:
             "PORT": getenv("DB_PORT")   
         }
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if getenv('DATABASE_URL', None) is None:
-        raise Exception('DATABASE_URL environment variable not defined')
-    # DATABASES = {
-    #     'default': dj_database_url.parse(getenv('DATABASE_URL')),
-    # }
+# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+#     if getenv('DATABASE_URL', None) is None:
+#         raise Exception('DATABASE_URL environment variable not defined')
+#     DATABASES = {
+#         'default': dj_database_url.parse(getenv('DATABASE_URL')),
+#     }
 
 # Email settings
 
@@ -255,37 +240,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://59888bf6.bot-client-2b4.pages.dev',
-    'https://contexxai.com',
-]
-# CORS_ALLOWED_ORIGINS = getenv(
-#     'CORS_ALLOWED_ORIGINS',
-#     'http://localhost:3000,http://127.0.0.1:3000,https://59888bf6.bot-client-2b4.pages.dev,https://contexxai.com',
-    
-# ).split(',')
-CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOW_METHODS = (
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-)
- 
-
-CORS_ALLOW_HEADERS = (
-    "accept",
-    "authorization",
-    "content-type",
-    "user-agent"
-)
-
 
 # class DynamicCorsMiddleware(CorsMiddleware):
 #     def process_response(self, request, response):
@@ -332,5 +286,31 @@ LOGGING = {
     }
 }
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://59888bf6.bot-client-2b4.pages.dev',
+    'https://contexxai.com',
+]
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+  
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent"
+)
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.UserAccount'
