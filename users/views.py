@@ -20,7 +20,7 @@ class CustomProviderAuthView(ProviderAuthView):
         if response.status_code == 201:
             access_token = response.data.get('access')
             refresh_token = response.data.get('refresh')
-            response["Access-Control-Allow-Origin"] = "*"
+            response["Access-Control-Allow-Origin"] = "https://contexxai.com"
             
 #             CORS_ORIGIN_WHITELIST = [
 #     'https://contexxai.com',
