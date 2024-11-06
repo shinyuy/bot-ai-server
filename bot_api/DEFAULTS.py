@@ -1,7 +1,6 @@
 # <myproject/DEFAULTS.py>
 from corsheaders.defaults import default_headers
 
-
 DEFAULT_HEADERS = list(default_headers) + [
     "WWW-Authenticate",
     "Authorization",

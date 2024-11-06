@@ -37,35 +37,6 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '59888bf6.bot-client-2b4.pages.dev',
-    'contexxai.com',
- ]
-
-# Application definition
-
-CORS_ALLOWED_ORIGINS = [ 
-    'https://contexxai.com',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
-]
-
-CORS_ORIGIN_ALLOW_ALL=True
-CORS_ALLOW_ALL_ORIGINS=True
-
-CORS_ORIGIN_WHITELIST = (
-    'https://contexxai.com',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',
-)
-
-CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -93,9 +64,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -202,7 +173,7 @@ if DEVELOPMENT_MODE is True:
     MEDIA_URL = 'media/'
     MEDIA_ROOT = BASE_DIR / 'media'
 else:
-    print("AWS Config")
+    print("")
     # AWS_S3_ACCESS_KEY_ID = getenv('AWS_S3_ACCESS_KEY_ID')
     # AWS_S3_SECRET_ACCESS_KEY = getenv('AWS_S3_SECRET_ACCESS_KEY')
     # AWS_STORAGE_BUCKET_NAME = getenv('AWS_STORAGE_BUCKET_NAME')
@@ -307,6 +278,29 @@ LOGGING = {
         }
     }
 }
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '59888bf6.bot-client-2b4.pages.dev',
+    'contexxai.com',
+ ]
+
+# Application definition
+
+CORS_ALLOWED_ORIGINS = [ 
+    'https://contexxai.com',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+]
+
+# CORS_ORIGIN_ALLOW_ALL=True
+# CORS_ALLOW_ALL_ORIGINS=True
+
+
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = (
     "DELETE",
