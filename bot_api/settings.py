@@ -16,6 +16,7 @@ from os import getenv, path
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 import dotenv
+from .DEFAULTS import DEFAULT_HEADERS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,13 +46,13 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
-# CORS_ALLOWED_ORIGINS = [ 
-#     'https://contexxai.com',
-#     'http://localhost:3000',
-#     'http://127.0.0.1:3000',
-#     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-#     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
-# ]
+CORS_ALLOWED_ORIGINS = [ 
+    'https://contexxai.com',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+]
 
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ALLOW_ALL_ORIGINS=True
@@ -67,7 +68,7 @@ CORS_ORIGIN_WHITELIST = (
 CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = [
-  'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',   
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -307,14 +308,16 @@ LOGGING = {
     }
 }
 
-# CORS_ALLOW_METHODS = (
-#     "DELETE",
-#     "GET",
-#     "OPTIONS",
-#     "PATCH",
-#     "POST",
-#     "PUT",
-# )
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = DEFAULT_HEADERS 
   
 
 # CORS_ALLOW_HEADERS = (
