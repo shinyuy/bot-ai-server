@@ -85,6 +85,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'bot_api.middleware.LogRequestsMiddleware', 
 ]
 
 ROOT_URLCONF = 'bot_api.urls'
@@ -306,11 +307,11 @@ LOGGING = {
 }
 
 ALLOWED_HOSTS = [
-    "0.0.0.0"
     'localhost',
     '127.0.0.1',
     '59888bf6.bot-client-2b4.pages.dev',
     'contexxai.com',
+    "0.0.0.0"
  ]
 
 # Application definition
