@@ -17,6 +17,9 @@ from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 import dotenv
 from .DEFAULTS import DEFAULT_HEADERS
+import dj_database_url
+from django.db import connections
+from django.db.utils import OperationalError
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -97,8 +100,10 @@ WSGI_APPLICATION = 'bot_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# if DEVELOPMENT_MODE is True:
-DATABASES = {
+DATABASES = {}
+try:
+    if DEVELOPMENT_MODE is True:
+        DATABASES = {
         "default" : {
             "ENGINE": "django.db.backends.postgresql",
             "NAME":  getenv("DB"),
@@ -106,14 +111,24 @@ DATABASES = {
             "PASSWORD": getenv("DB_PASSWORD"),
             "HOST": getenv("DB_HOST"),
             "PORT": getenv("DB_PORT")   
+         }
         }
-    }
-# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if getenv('DATABASE_URL', None) is None:
-#         raise Exception('DATABASE_URL environment variable not defined')
-#     DATABASES = {
-#         'default': dj_database_url.parse(getenv('DATABASE_URL')),
-#     }
+    elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+        if getenv('DATABASE_URL', None) is None:
+            raise Exception('DATABASE_URL environment variable not defined')
+        DATABASES = {
+            'default': dj_database_url.parse(getenv('DATABASE_URL')),
+        }
+    # Attempt to connect to the default database
+    db_conn = connections['default']
+    db_conn.cursor()  # This will attempt to establish a connection to the database
+
+    print("Database connection successful!")   
+
+except OperationalError as e:
+    print("Database connection failed:", e)
+except Exception as ex:
+    print("An error occurred during database configuration:", ex)     
 
 # Email settings
 
