@@ -14,17 +14,17 @@ class LogRequestsMiddleware:
         logger.info(f"Request headers: {request.headers}")
 
         response = self.get_response(request)
-        response.headers = {
-            'Content-Type': 'application/json', 'Vary': 'Accept', 'Allow': 'GET, POST, HEAD, OPTIONS',
-            'Access-Control-Allow-Origin': 'https://contexxai.com'
-                                # [ 
-                                # 'https://contexxai.com',
-                                # 'http://localhost:3000',
-                                # 'http://127.0.0.1:3000',
-                                # 'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-                                # 'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
-                                # ]
-                            }
+        # response.headers = {
+        #     'Content-Type': 'application/json', 'Vary': 'Accept', 'Allow': 'GET, POST, HEAD, OPTIONS',
+        #     'Access-Control-Allow-Origin': 'https://contexxai.com'
+        #                         [ 
+        #                         'https://contexxai.com',
+        #                         'http://localhost:3000',
+        #                         'http://127.0.0.1:3000',
+        #                         'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+        #                         'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+        #                         ]
+        #                     }
 
         # Log response headers
         logger.info(f"Response headers: {response.headers}")
