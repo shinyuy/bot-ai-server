@@ -87,7 +87,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'bot_api.middleware.LogRequestsMiddleware', 
 ]
-
+  
 ROOT_URLCONF = 'bot_api.urls'
 
 TEMPLATES = [
