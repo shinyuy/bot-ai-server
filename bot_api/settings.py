@@ -40,7 +40,6 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'djoser',  
     # 'storages',
@@ -63,18 +63,28 @@ INSTALLED_APPS = [
     'messenger',
     'calls',
     'channels',
-     'corsheaders',
 ]
 
+# MIDDLEWARE = [
+#     'corsheaders.middleware.CorsMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.security.SecurityMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# ]
+
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROOT_URLCONF = 'bot_api.urls'
@@ -295,19 +305,34 @@ LOGGING = {
     }
 }
 
+ALLOWED_HOSTS = [
+    "0.0.0.0"
+    'localhost',
+    '127.0.0.1',
+    '59888bf6.bot-client-2b4.pages.dev',
+    'contexxai.com',
+ ]
 
 # Application definition
 
-# CORS_ALLOWED_ORIGINS = [ 
-#     'https://contexxai.com',
-#     'http://localhost:3000',
-#     'http://127.0.0.1:3000',
-#     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-#     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
-# ]
+CORS_ALLOWED_ORIGINS = [ 
+    'https://contexxai.com',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+]
 
-CORS_ORIGIN_ALLOW_ALL=True
-CORS_ALLOW_ALL_ORIGINS=True
+CSRF_TRUSTED_ORIGINS = [ 
+    'https://contexxai.com',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+]
+
+# CORS_ORIGIN_ALLOW_ALL=True
+# CORS_ALLOW_ALL_ORIGINS=True
 
 
 CORS_ALLOW_CREDENTIALS = True
