@@ -307,7 +307,7 @@ LOGGING = {
 }
 
 ALLOWED_HOSTS = [
-    'bot-ai-server.onrender.com'
+    'bot-ai-server.onrender.com',
     'localhost',
     '127.0.0.1',
     '59888bf6.bot-client-2b4.pages.dev',
