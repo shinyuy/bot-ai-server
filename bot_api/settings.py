@@ -316,21 +316,21 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
-CORS_ALLOWED_ORIGINS = [ 
-    'https://contexxai.com',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
-]
+# CORS_ALLOWED_ORIGINS = [ 
+#     'https://contexxai.com',
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+#     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+#     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+# ]
 
-CSRF_TRUSTED_ORIGINS = [ 
-    'https://contexxai.com',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
-]
+# CSRF_TRUSTED_ORIGINS = [ 
+#     'https://contexxai.com',
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+#     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
+#     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+# ]
 
 # CORS_ORIGIN_ALLOW_ALL=True
 # CORS_ALLOW_ALL_ORIGINS=True
