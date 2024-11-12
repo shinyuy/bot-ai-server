@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import sys
 # import dj_database_url
 from os import getenv, path
+import os
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 import dotenv
@@ -361,3 +362,7 @@ CORS_ALLOW_HEADERS = DEFAULT_HEADERS
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.UserAccount'
+
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
