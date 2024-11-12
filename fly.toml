@@ -1,0 +1,31 @@
+# fly.toml app configuration file generated for bot-api-restless-voice-2290 on 2024-11-10T10:44:00+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'bot-api-restless-voice-2290'
+primary_region = 'gru'
+console_command = '/code/manage.py shell'
+
+[build]
+
+[deploy]
+  release_command = 'python manage.py migrate --noinput'
+
+[env]
+  PORT = '8000'
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  size = 'shared-cpu-1x'
+
+[[statics]]
+  guest_path = '/code/static'
+  url_prefix = '/static/'
