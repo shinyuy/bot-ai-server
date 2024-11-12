@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apk-get add libffi-dev    
+RUN apt-get update && apt-get install libffi-dev    
 
 RUN mkdir -p /code
 
