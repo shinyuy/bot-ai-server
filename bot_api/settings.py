@@ -314,6 +314,7 @@ ALLOWED_HOSTS = [
     "0.0.0.0",
     "f005.backblazeb2.com",
     "dd92-154-72-160-46.ngrok-free.app",
+    "bot-ai-server.onrender.com",
  ]
 
 # Application definition
@@ -326,6 +327,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://bot-ai-git-master-shinyuys-projects.vercel.app', 
     "https://f005.backblazeb2.com",
     "https://dd92-154-72-160-46.ngrok-free.app",   
+    "https://bot-ai-server.onrender.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [     
@@ -336,6 +338,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
     "https://f005.backblazeb2.com",
     "https://dd92-154-72-160-46.ngrok-free.app",
+    "https://bot-ai-server.onrender.com",
 ]
 
 # CORS_ORIGIN_ALLOW_ALL=True
