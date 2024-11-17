@@ -1,6 +1,5 @@
 from django.db import models
 from pgvector.django import VectorField
-from company.models import Company
 from users.models import UserAccount
 from pgvector.django import HnswIndex
 import uuid

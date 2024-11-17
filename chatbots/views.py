@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Chatbot
 from chats.models import Chat
-from company.models import Company
 from data_store.models import DataStore
 from .serializer import ChatbotSerializer, ChatbotDetailsSerializer
 from rest_framework.views import APIView  
@@ -27,8 +26,8 @@ class ChatbotApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        # if not subscription or not subscription.is_valid():
-        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
         
         try:  
             chatbot = Chatbot.objects.filter(user_id = request.user.id)
@@ -39,47 +38,48 @@ class ChatbotApiView(APIView):
 
     # 2. Create
     def post(self, request, *args, **kwargs):
-        
-        user = UserAccount.objects.get(id = request.user.id)
-        subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        # if not subscription or not subscription.is_valid():
-        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
-        
-        
-        # user_profile = UserProfile.objects.get(user=user)
-        # subscription_plan = user_profile.subscription_plan
+        subscription = StripeSubscription.objects.filter(user=request.user.id, active=True).first()
 
-        # # Get the total number of chatbots the user has already created
-        # user_chatbots_count = Chatbot.objects.filter(user=request.user.id).count()
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
+        
+        user_profile = UserProfile.objects.get(user=request.user.id)
+        subscription_plan = user_profile.subscription_plan
+        max_chatbots = user_profile.max_chatbots
+        
+        # Get the total number of chatbots the user has already created
+        user_chatbots_count = Chatbot.objects.filter(user_id=request.user.id).count()
 
-        # # Check if the user has reached their max chatbot limit
-        # if user_chatbots_count >= subscription_plan.max_chatbots:
-        #     return JsonResponse({  
-        #     'error': 'You have reached the maximum number of chatbots allowed by your subscription plan.'
-        # }, status=400)
+        # Check if the user has reached their max chatbot limit
+       
+        if user_chatbots_count >= max_chatbots:
+            return JsonResponse({  
+            'error': 'You have reached the maximum number of chatbots allowed by your subscription plan.'
+        }, status=400)
    
-        # # Check if the user wants to enable social media access but doesn't have that feature
-        # if request.data.get('enable_social_media') and not subscription_plan.has_social_media_access:
-        #     return JsonResponse({
-        #         'error': 'Your subscription plan does not allow chatbots with social media access.'
-        # }, status=400)
+        # Check if the user wants to enable social media access but doesn't have that feature
+        if request.data.get('enable_social_media') and not subscription_plan.has_social_media_access:
+            return JsonResponse({
+                'error': 'Your subscription plan does not allow chatbots with social media access.'
+        }, status=400)
 
             
         files = generate_html_css(request.data.get('name'),request.data.get('logo_url'), request.data.get('primary_color'), request.data.get('welcomeMessage'), request.data.get('placeholderText'), request.data.get('hideBranding')) 
         
         
-        paths = save_files(files['html_content'], files['css_content'], request.data.get('name'), user.external_id) 
+        paths = save_files(files['html_content'], files['css_content'], request.data.get('name'), request.user.external_id) 
          
-        chatbot_url = upload_to_backblaze(paths['html_file_path'], paths['css_file_path'], getenv('BACKBLAZE_KEY_NAME'), getenv('BACKBLAZE_API_KEY_ID'), getenv('BACKBLAZE_API_KEY'))
+        chatbot = upload_to_backblaze(paths['html_file_path'], paths['css_file_path'], getenv('BACKBLAZE_KEY_NAME'), getenv('BACKBLAZE_API_KEY_ID'), getenv('BACKBLAZE_API_KEY'))
         
         data = {    
             'name': request.data.get('name'),   
             'user_id': request.user.id, 
             'data_sources': request.data.get('data_source'), 
-            'public' : request.data.get('chatbot_public'), 
+            'public' : request.data.get('chatbot_public'),   
             'hide_branding' : request.data.get('hideBranding'),   
-            'chatbot_url' : chatbot_url,
+            'chatbot_url' : chatbot["html_file_path"],
+            'chatbot_css_url' : chatbot["css_file_path"],
             'link_to_logo' : request.data.get('logo_url')   
        
         }
@@ -168,8 +168,8 @@ class ChatbotDetailsApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        # if not subscription or not subscription.is_valid():
-        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
         
       
         ChatbotDetails = namedtuple('ChatbotDetails', ('data_source'))

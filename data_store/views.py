@@ -45,8 +45,8 @@ class DataStoreApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        # if not subscription or not subscription.is_valid():
-        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
           
         
         text_splitter = RecursiveCharacterTextSplitter (   
@@ -165,7 +165,7 @@ class QuestionApiView(APIView):
             # serializer = DataStoreSerializer(result, many=True)
             print("uuoddddddddddddddddddddddddddddddddddddddddddddddddah")
             data = {  
-                    'question': question,
+                    'question': question,  
                     'answer': res, 
                     'data_source': data_source,
                     'created_by': created_by,

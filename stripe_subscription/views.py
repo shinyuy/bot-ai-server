@@ -3,7 +3,7 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import StripeSubscription
+from .models import StripeSubscription, UserProfile
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 import json
@@ -58,14 +58,19 @@ def handle_subscription_created(event):
     current_period_start = datetime.datetime.fromtimestamp(current_period_start_unix, tz=timezone.utc)
         
     user = UserAccount.objects.get(email=customer_email)
+    
+    sub = get_subscription_plan(data)
     try:
         StripeSubscription.objects.create(
         user=user, stripe_customer_id=customer_id, end_date=current_period_end, created_at=current_period_start,
-        stripe_subscription_id=subscription_id, active=True)
+        stripe_subscription_id=subscription_id, plan=sub["plan"], max_chatbots=sub["max_chatbots"], active=True)
+        UserProfile.objects.create(
+        user=user, subscription_plan_name=sub["plan"], max_chatbots=sub["max_chatbots"])
     except StripeSubscription.DoesNotExist:
         print('Not found')    
 
 def handle_subscription_updated(event):
+    print("3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333")
     data = event['data']['object']
     customer_id = data['customer']
     active = data['status'] == 'active'
@@ -126,3 +131,41 @@ class StripeApiView(APIView):
             return JsonResponse({'sessionId': checkout_session.id, 'checkout_session': checkout_session, 'status': 200 })
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)    
+
+
+
+def get_subscription_plan(subscription):
+    latest_invoice_id = subscription.get('latest_invoice')
+    
+    if latest_invoice_id:
+        # Retrieve the invoice using Stripe's API
+        invoice = stripe.Invoice.retrieve(latest_invoice_id)
+        
+        # Get the amount paid from the invoice (in the smallest currency unit, e.g., cents)
+        amount_paid = invoice['amount_paid']
+        
+        # Convert amount_paid to the main currency unit if needed
+        amount_paid_converted = amount_paid / 100  # Assuming currency with two decimal places
+        
+    
+    if amount_paid_converted == 9:
+        return {
+            "plan": "Basic",
+            "max_chatbots": 3
+        }
+    elif amount_paid_converted == 29:
+        return {
+            "plan": "Standard",
+            "max_chatbots": 10
+        }
+    elif amount_paid_converted == 59:
+        return {
+            "plan": "Premium",
+            "max_chatbots": 20
+        }
+    else:
+        return {
+            "plan": "Unknown",
+            "max_chatbots": 0
+        }
+

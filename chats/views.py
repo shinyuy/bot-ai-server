@@ -16,12 +16,12 @@ class ChatApiView(APIView):
         user = UserAccount.objects.get(id = request.user.id)
         subscription = StripeSubscription.objects.filter(user=user, active=True).first()
 
-        # if not subscription or not subscription.is_valid():
-        #     return JsonResponse({'error': 'No valid subscription'}, status=403)
+        if not subscription or not subscription.is_valid():
+            return JsonResponse({'error': 'No valid subscription'}, status=403)
         
-        # data_store = DataStore.objects.filter(company_id = request.data['company_id'])
-        # serializer = DataStoreSerializer(data_store)
-        # return Response(serializer.data, status=status.HTTP_200_OK)
+        data_store = DataStore.objects.filter(company_id = request.data['company_id'])
+        serializer = DataStoreSerializer(data_store)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
         try:
             chats = Chat.objects.filter(created_by=request.user.id)

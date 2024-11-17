@@ -319,7 +319,7 @@ def generate_html_css(client_name, logo_url, primary_color, welcome_message, pla
 def save_files(html_content, css_content, client_name, user_external_d):
     
     html_file_path = f'{client_name + '_' + str(user_external_d)}_chatbot.html'
-    css_file_path = f'{client_name}_style.css'
+    css_file_path = f'{client_name + ' '+ str(user_external_d)}_style.css'
 
     with open(html_file_path, 'w', encoding='utf-8') as html_file:   
         html_file.write(html_content)
@@ -357,8 +357,10 @@ def upload_to_backblaze(html_file_path, css_file_path, bucket_name, application_
         bucket.upload_bytes(css_file.read(), css_file_path)
 
     print(f'Files {html_file_path} and {css_file_path} uploaded successfully.')
+    print(html_file_path)
+    print(css_file_path)
     
-    return html_file_path
+    return {html_file_path, css_file_path}
     
     
 def upload_logo(image_path):

@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'social_django',
     'users',
     'data_store',
-    'company',
     'whatsapp',
     'chats',
     'chatbots',
@@ -308,30 +307,35 @@ LOGGING = {
 }
 
 ALLOWED_HOSTS = [
-    'bot-ai-server.onrender.com',
     'localhost',
     '127.0.0.1',
     '59888bf6.bot-client-2b4.pages.dev',
     'contexxai.com',
-    "0.0.0.0"
+    "0.0.0.0",
+    "f005.backblazeb2.com",
+    "dd92-154-72-160-46.ngrok-free.app",
  ]
 
 # Application definition
 
 CORS_ALLOWED_ORIGINS = [ 
-    'https://contexxai.com',
+    'https://contexxai.com',   
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+    'https://bot-ai-git-master-shinyuys-projects.vercel.app', 
+    "https://f005.backblazeb2.com",
+    "https://dd92-154-72-160-46.ngrok-free.app",   
 ]
 
-CSRF_TRUSTED_ORIGINS = [ 
+CSRF_TRUSTED_ORIGINS = [     
     'https://contexxai.com',
     'http://localhost:3000',
-    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3000',  
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+    "https://f005.backblazeb2.com",
+    "https://dd92-154-72-160-46.ngrok-free.app",
 ]
 
 # CORS_ORIGIN_ALLOW_ALL=True
@@ -358,7 +362,7 @@ CORS_ALLOW_HEADERS = DEFAULT_HEADERS
 #     "content-type",
 #     "user-agent"
 # )
-
+  
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.UserAccount'
