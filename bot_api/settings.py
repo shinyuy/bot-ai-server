@@ -313,7 +313,7 @@ ALLOWED_HOSTS = [
     'contexxai.com',
     "0.0.0.0",
     "f005.backblazeb2.com",
-    "dd92-154-72-160-46.ngrok-free.app",
+    "55ec-154-72-161-150.ngrok-free.app",
     "bot-ai-server.onrender.com",
  ]
 
@@ -326,7 +326,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
     'https://bot-ai-git-master-shinyuys-projects.vercel.app', 
     "https://f005.backblazeb2.com",
-    "https://dd92-154-72-160-46.ngrok-free.app",   
+    "https://55ec-154-72-161-150.ngrok-free.app",   
     "https://bot-ai-server.onrender.com",
 ]
 
@@ -337,7 +337,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
     "https://f005.backblazeb2.com",
-    "https://dd92-154-72-160-46.ngrok-free.app",
+    "https://55ec-154-72-161-150.ngrok-free.app",
     "https://bot-ai-server.onrender.com",
 ]
 
