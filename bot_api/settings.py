@@ -109,12 +109,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bot_api.wsgi.application'
 ASGI_APPLICATION = "bot_api.asgi.application"
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    "0.0.0.0",
- ]
-
 
 # Database   
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -320,6 +314,7 @@ ALLOWED_HOSTS = [
     'contexxai.com',
     "0.0.0.0",
     "f005.backblazeb2.com",
+    'bot-ai-server.onrender.com'
  ]
 
 # Application definition
