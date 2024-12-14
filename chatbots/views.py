@@ -16,6 +16,10 @@ from users.models import UserAccount
 from .static_files import generate_html_css, save_files, upload_to_backblaze, upload_logo
 from rest_framework.parsers import MultiPartParser, FormParser
 from os import getenv, path
+from django.http import HttpResponse, Http404
+import requests
+from django.utils.decorators import decorator_from_middleware
+from django.middleware.clickjacking import XFrameOptionsMiddleware
    
 class ChatbotApiView(APIView):
     # add permission to check if user is authenticated  
@@ -84,7 +88,7 @@ class ChatbotApiView(APIView):
        
         }
         serializer = ChatbotSerializer(data=data)
-        if serializer.is_valid():
+        if serializer.is_valid():  
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -199,5 +203,28 @@ class LogoApiView(APIView):
             'public_id': uploaded_logo['public_id']  # Return URL to access the file if needed
         }, status=status.HTTP_201_CREATED)
         
+
+def allow_iframe(view_func):
+    middleware = decorator_from_middleware(XFrameOptionsMiddleware)
+    return middleware(view_func)        
+        
          
-             
+@allow_iframe         
+def serve_static_file(request, file_name):
+    # Backblaze public file URL
+   
+    html_file_name = "Test_4d06e3f2-7e84-4473-98a8-b58ffe0c4ded_chatbot.html"
+    css_file_name = "Test_style.css"
+    base_url = "https://f005.backblazeb2.com/file/contexx"
+    html_file_url = f"{base_url}/{file_name}"
+
+    # Fetch the file from Backblaze
+    response = requests.get(html_file_url)
+    print(html_file_url)
+    print("111111111111111111111111111111111111111111111111111111111111111111111111111111")
+    print(response.content)
+    print("111111111111111111111111111111111111111111111111111111111111111111111111111111")
+    if response.status_code == 200:
+        return HttpResponse(response.content, content_type=response.headers['Content-Type'])
+    else:
+        raise Http404("File not found")             

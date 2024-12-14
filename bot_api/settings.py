@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+     "channels",
     'djoser',  
     # 'storages',
     'social_django',
@@ -62,7 +63,6 @@ INSTALLED_APPS = [
     'stripe_subscription', 
     'messenger',
     'calls',
-    'channels',
 ]
 
 # MIDDLEWARE = [
@@ -87,7 +87,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'bot_api.middleware.LogRequestsMiddleware', 
 ]
-  
+X_FRAME_OPTIONS = 'ALLOWALL'
 ROOT_URLCONF = 'bot_api.urls'
 
 TEMPLATES = [
@@ -107,9 +107,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bot_api.wsgi.application'
+ASGI_APPLICATION = "bot_api.asgi.application"
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    "0.0.0.0",
+ ]
 
 
-# Database
+# Database   
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {}
@@ -313,8 +320,6 @@ ALLOWED_HOSTS = [
     'contexxai.com',
     "0.0.0.0",
     "f005.backblazeb2.com",
-    "55ec-154-72-161-150.ngrok-free.app",
-    "bot-ai-server.onrender.com",
  ]
 
 # Application definition
@@ -325,9 +330,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
     'https://bot-ai-git-master-shinyuys-projects.vercel.app', 
-    "https://f005.backblazeb2.com",
-    "https://55ec-154-72-161-150.ngrok-free.app",   
-    "https://bot-ai-server.onrender.com",
+    "https://f005.backblazeb2.com", 
 ]
 
 CSRF_TRUSTED_ORIGINS = [     
@@ -337,8 +340,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
     'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
     "https://f005.backblazeb2.com",
-    "https://55ec-154-72-161-150.ngrok-free.app",
-    "https://bot-ai-server.onrender.com",
 ]
 
 # CORS_ORIGIN_ALLOW_ALL=True

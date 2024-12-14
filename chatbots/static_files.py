@@ -36,9 +36,9 @@ def generate_html_css(client_name, logo_url, primary_color, welcome_message, pla
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
-    <link rel="stylesheet" href="{client_name}_style.css">
+    <link rel="stylesheet" href="https://f005.backblazeb2.com/file/contexx/{client_name}_style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <script src="script.js" defer></script>
+    <script src="https://f005.backblazeb2.com/file/contexx/script.js" defer></script>
     
 </head>
 
@@ -68,7 +68,7 @@ def generate_html_css(client_name, logo_url, primary_color, welcome_message, pla
             </span>
         </div>
         <div class="powered">
-            Powered by &nbsp;&nbsp;&nbsp;&nbsp; <a href="https://contexxai.com" target="_blank"><img src="./logo.png" alt=""><b>Contexx AI</b></a>
+            Powered by &nbsp;&nbsp;&nbsp;&nbsp; <a href="https://contexxai.com" target="_blank"><img src="https://f005.backblazeb2.com/file/contexx/logo.png" alt=""><b>Contexx AI</b></a>
         </div>
     </div>
     
@@ -310,7 +310,7 @@ def generate_html_css(client_name, logo_url, primary_color, welcome_message, pla
             display: block;
         }}
     }}
-    """
+    """  
     files = {}
     files['html_content']=html_content
     files['css_content']=css_content   

@@ -5,7 +5,8 @@ from .views import (
     ChatbotApiView,
     StatsApiView,
     ChatbotDetailsApiView,
-    LogoApiView
+    LogoApiView,
+    serve_static_file
 )
 
 urlpatterns = [
@@ -13,4 +14,6 @@ urlpatterns = [
     path('logo/upload', LogoApiView.as_view()),
     path('chatbots/details/', ChatbotDetailsApiView.as_view()),
     path('stats', StatsApiView.as_view()),
+    path('static-files/<str:file_name>/', serve_static_file, name='serve_static_file'),
+
 ]
