@@ -16,7 +16,7 @@ class LogRequestsMiddleware:
         response = self.get_response(request)
         response.headers = {
             'Content-Type': 'application/json', 'Vary': 'Accept', 'Allow': 'GET, POST, HEAD, OPTIONS',
-            # 'Access-Control-Allow-Origin': 'https://contexxai.com',
+            'Access-Control-Allow-Origin': 'https://contexxai.com',
                                 # [ 
                                 #     'https://contexxai.com',
                                 #     'http://localhost:3000',
