@@ -42,6 +42,15 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = getenv("DEBUG", "False") == "True"
 
 
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'contexxai.com',
+    "f005.backblazeb2.com",
+    'bot-ai-server.onrender.com'
+ ]
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',   
@@ -155,7 +164,6 @@ DEFAULT_FROM_EMAIL = getenv("SENDGRID_SENDER", "")
 DEFAULT_FROM_EMAIL = getenv('SENDGRID_SENDER')  
 
 PROTOCOL = "http"
-DOMAIN = "127.0.0.1:8000"
  
 DOMAIN = getenv('DOMAIN')
 SITE_NAME = 'Contexx AI'    
@@ -307,33 +315,19 @@ LOGGING = {
     }
 }
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '59888bf6.bot-client-2b4.pages.dev',
-    'contexxai.com',
-    "0.0.0.0",
-    "f005.backblazeb2.com",
-    'bot-ai-server.onrender.com'
- ]
-
 # Application definition
 
 CORS_ALLOWED_ORIGINS = [ 
     'https://contexxai.com',   
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app', 
     "https://f005.backblazeb2.com", 
 ]
 
 CSRF_TRUSTED_ORIGINS = [     
     'https://contexxai.com',
     'http://localhost:3000',
-    'http://127.0.0.1:3000',  
-    'https://bot-ffl7q8xr1-shinyuys-projects.vercel.app',
-    'https://bot-ai-git-master-shinyuys-projects.vercel.app',  
+    'http://127.0.0.1:3000',    
     "https://f005.backblazeb2.com",
 ]
 
