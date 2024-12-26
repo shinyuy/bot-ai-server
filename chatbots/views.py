@@ -225,6 +225,6 @@ def serve_static_file(request, file_name):
     print(response.content)
     print("111111111111111111111111111111111111111111111111111111111111111111111111111111")
     if response.status_code == 200:
-        return HttpResponse(response.content, content_type=response.headers['Content-Type'])
+        return HttpResponse(response.content, content_type='text/html')
     else:
         raise Http404("File not found")             

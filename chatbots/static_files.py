@@ -296,8 +296,8 @@ def generate_html_css(client_name, logo_url, primary_color, welcome_message, pla
         .chatbot {{
             right: 0;
             bottom: 0;
-            width: 100%;
-            height: 100%;
+            width: 90%;
+            height: 90%;
             border-radius: 0;
         }}
         .chatbot header {{
