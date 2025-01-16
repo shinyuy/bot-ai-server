@@ -15,7 +15,6 @@ from django.utils import timezone
 
 stripe.api_key = getenv("STRIPE_SECRET_KEY")
 # This is your Stripe CLI webhook secret for testing your endpoint locally.
-endpoint_secret = 'whsec_b46931d97c95611dba67f3e541bb56b9d08eebf971a93569a35cbae02e384d03'
 
 @csrf_exempt
 def stripe_webhook(request):

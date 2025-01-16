@@ -25,7 +25,7 @@ from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
-from .consumers import TwilioMediaStreamConsumer
+from .consumers import TwilioMediaStreamConsumer, TranscriptionConsumer
    
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bot_api.settings')
 
@@ -34,6 +34,7 @@ application = ProtocolTypeRouter({
     "websocket": AuthMiddlewareStack(
         URLRouter([  
             path("ws/calls/", TwilioMediaStreamConsumer.as_asgi()),  # WebSocket route
+            path('ws/transcribe/', TranscriptionConsumer.as_asgi()),
         ])
     ),
 })

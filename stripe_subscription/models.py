@@ -37,7 +37,7 @@ class UserProfile(models.Model):
     subscription_plan = models.ForeignKey(StripeSubscription, on_delete=models.SET_NULL, null=True, blank=True)
     max_chatbots = models.IntegerField(default=1)
     has_social_media_access =models.BooleanField(default=False)
-    subscription_plan_name =models.CharField(default=False)
+    subscription_plan_name =models.CharField(default=False, max_length=100)
 
     def __str__(self):
         return f'{self.user.email} - {self.subscription_plan.name}'    

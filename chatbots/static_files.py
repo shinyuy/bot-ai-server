@@ -58,6 +58,10 @@ def generate_html_css(client_name, logo_url, primary_color, welcome_message, pla
                 <span id="robot" class="material-symbols-outlined">smart_toy</span>
                 <p>{greetings}</p>
             </li>
+             <li class="chat incoming" style="margin-top: 4px;">
+                <span id="robot" class="material-symbols-outlined">smart_toy</span>   
+                <p>Please enter your email</p>
+            </li>
 
         </ul>
         <div class="chat-input">
